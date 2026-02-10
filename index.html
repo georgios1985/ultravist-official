@@ -3,175 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ULTRAVIST PRO | 8K AI Engine</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <title>ULTRAVIST ENGINE V4</title>
     <style>
-        :root { --gold: #d4af37; --bg: #050505; --sidebar: #0a0a0a; --card: #111; --text-muted: #666; }
-        * { box-sizing: border-box; transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        body { margin: 0; background: var(--bg); color: white; font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; }
-
-        /* --- HEADER --- */
-        header { display: flex; justify-content: space-between; padding: 20px 5%; align-items: center; background: rgba(0,0,0,0.9); backdrop-filter: blur(15px); border-bottom: 1px solid #222; position: sticky; top: 0; z-index: 1000; }
-        .logo-box { display: flex; align-items: center; gap: 12px; cursor: pointer; }
-        .logo-square { width: 40px; height: 40px; background: var(--gold); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: black; font-weight: 800; font-size: 1.4rem; }
-        .logo-text { font-size: 1.6rem; font-weight: 800; letter-spacing: 3px; color: var(--gold); }
-        .btn-pro { background: var(--gold); border: none; padding: 12px 30px; border-radius: 12px; font-weight: 800; cursor: pointer; color: black; }
-
-        /* --- LAYOUT --- */
-        .master-wrapper { display: flex; padding: 40px 5%; gap: 40px; }
+        :root { --gold: #d4af37; --bg: #000000; --side: #0a0a0a; }
+        body { margin: 0; background: var(--bg); color: white; font-family: sans-serif; display: flex; flex-direction: column; }
         
-        /* Sidebar (Exact Lumina) */
-        aside { width: 300px; flex-shrink: 0; }
-        .side-widget { background: var(--sidebar); border: 1px solid #222; border-radius: 24px; padding: 25px; margin-bottom: 30px; }
-        .side-widget h3 { font-size: 0.75rem; color: #444; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
-        .side-item { display: flex; justify-content: space-between; padding: 12px 0; color: #888; cursor: pointer; border-bottom: 1px solid #151515; }
-        .side-item:hover { color: var(--gold); transform: translateX(5px); }
-        .badge { background: #1a1a1a; padding: 4px 10px; border-radius: 8px; font-size: 0.75rem; color: var(--gold); font-weight: bold; }
+        /* HEADER */
+        header { display: flex; justify-content: space-between; padding: 20px 5%; background: #000; border-bottom: 2px solid var(--gold); position: sticky; top: 0; z-index: 100; }
+        .logo { font-size: 1.8rem; font-weight: bold; color: var(--gold); letter-spacing: 3px; }
 
-        /* --- CONTENT --- */
+        /* LUMINA LAYOUT */
+        .master-container { display: flex; padding: 30px 5%; gap: 30px; }
+        
+        /* SIDEBAR */
+        aside { width: 280px; flex-shrink: 0; }
+        .side-box { background: var(--side); border: 1px solid #222; border-radius: 15px; padding: 20px; margin-bottom: 20px; border-left: 4px solid var(--gold); }
+        .side-box h3 { font-size: 0.8rem; color: var(--gold); text-transform: uppercase; margin-bottom: 15px; }
+        .menu-item { display: flex; justify-content: space-between; padding: 10px 0; color: #888; border-bottom: 1px solid #1a1a1a; cursor: pointer; }
+        .menu-item:hover { color: white; }
+
+        /* MAIN CONTENT */
         main { flex: 1; }
-        .search-container { background: #111; border: 1px solid #333; border-radius: 20px; display: flex; padding: 10px; margin-bottom: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-        .search-container input { background: transparent; border: none; color: white; flex: 1; padding: 15px; outline: none; font-size: 1rem; }
-        .btn-gen { background: var(--gold); border: none; padding: 0 35px; border-radius: 15px; font-weight: 800; cursor: pointer; }
+        .search-area { background: #111; border: 1px solid #333; border-radius: 15px; display: flex; padding: 5px; margin-bottom: 30px; }
+        .search-area input { background: transparent; border: none; color: white; flex: 1; padding: 15px; outline: none; }
+        .btn-gen { background: var(--gold); border: none; padding: 0 30px; border-radius: 10px; font-weight: bold; cursor: pointer; }
 
-        .filter-row { display: flex; gap: 12px; margin-bottom: 40px; overflow-x: auto; padding-bottom: 10px; }
-        .chip { background: #111; border: 1px solid #222; padding: 10px 25px; border-radius: 50px; cursor: pointer; color: #555; font-size: 0.85rem; white-space: nowrap; }
-        .chip.active, .chip:hover { border-color: var(--gold); color: var(--gold); background: rgba(212,175,55,0.05); }
+        /* GRID */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+        .card { background: #111; border-radius: 20px; overflow: hidden; border: 1px solid #222; cursor: pointer; position: relative; height: 350px; }
+        .card:hover { border-color: var(--gold); transform: translateY(-5px); }
+        .card-img { width: 100%; height: 100%; background-size: cover; background-position: center; }
+        .card-info { position: absolute; bottom: 0; width: 100%; padding: 20px; background: linear-gradient(transparent, #000); }
 
-        /* GALLERY GRID */
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; }
-        .wall-card { background: var(--card); border-radius: 30px; border: 1px solid #222; overflow: hidden; position: relative; cursor: pointer; height: 450px; }
-        .wall-card:hover { border-color: var(--gold); transform: translateY(-15px); box-shadow: 0 20px 50px rgba(0,0,0,0.7); }
-        .wall-img { width: 100%; height: 100%; background-size: cover; background-position: center; }
-        .wall-overlay { position: absolute; bottom: 0; width: 100%; padding: 40px 30px; background: linear-gradient(transparent, rgba(0,0,0,1)); opacity: 0; }
-        .wall-card:hover .wall-overlay { opacity: 1; }
-
-        /* --- MODAL PREVIEW --- */
-        #previewBox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 10000; align-items: center; justify-content: center; flex-direction: column; }
-        #previewBox img { max-width: 90%; max-height: 75%; border-radius: 24px; border: 1px solid var(--gold); box-shadow: 0 0 60px rgba(212,175,55,0.3); }
-        .dl-btn { background: var(--gold); color: black; text-decoration: none; padding: 18px 50px; border-radius: 15px; font-weight: 800; margin-top: 30px; font-size: 1.1rem; }
-
-        /* --- ADMIN PANEL --- */
-        #adminPanel { display: none; background: #d4af37; color: black; padding: 15px 5%; position: fixed; top: 0; width: 100%; z-index: 10001; justify-content: space-between; align-items: center; font-weight: 800; }
-        .admin-trigger { position: fixed; bottom: 20px; left: 20px; opacity: 0.05; cursor: pointer; }
+        /* PREVIEW MODAL (GEEN WITTE POPUPS) */
+        #modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 1000; align-items: center; justify-content: center; flex-direction: column; }
+        #modal img { max-width: 80%; border: 2px solid var(--gold); border-radius: 15px; }
+        .btn-dl { background: var(--gold); border: none; padding: 15px 40px; border-radius: 10px; font-weight: bold; margin-top: 20px; cursor: pointer; text-decoration: none; color: black; }
     </style>
 </head>
 <body>
 
-    <div id="adminPanel">
-        <span>ULTRAVIST CONTROL ACTIVE</span>
-        <div>
-            Prijs: € <input type="number" id="priceInp" value="19.99" style="width:70px" onchange="updateLive()">
-            Subs: <input type="number" id="subInp" value="2405" style="width:80px" onchange="updateLive()">
-            <button onclick="document.getElementById('adminPanel').style.display='none'" style="background:black; color:white; border:none; padding:5px 15px; border-radius:5px; margin-left:15px; cursor:pointer;">Close</button>
+<header>
+    <div class="logo">ULTRAVIST</div>
+    <button style="background:var(--gold); border:none; padding:10px 20px; border-radius:5px; font-weight:bold;">GO PRO</button>
+</header>
+
+<div class="master-container">
+    <aside>
+        <div class="side-box">
+            <h3>ONTDEKKEN</h3>
+            <div class="menu-item">8K Wallpapers <span>1.4k</span></div>
+            <div class="menu-item">Live Video's <span>62</span></div>
+            <div class="menu-item">Trending 🔥</div>
         </div>
-    </div>
-
-    <header>
-        <div class="logo-box" onclick="location.reload()">
-            <div class="logo-square">U</div>
-            <div class="logo-text">ULTRAVIST</div>
+        <div class="side-box">
+            <h3>LIVE STATS</h3>
+            <div class="menu-item">Subscribers <span id="subs" style="color:var(--gold)">2.405</span></div>
+            <div class="menu-item">Online <span style="color:green">● 142</span></div>
         </div>
-        <div style="display: flex; gap: 30px; align-items: center;">
-            <span style="color:#666; cursor:pointer; font-weight:600;">Showcase</span>
-            <span style="color:#666; cursor:pointer; font-weight:600;">8K Video's</span>
-            <button class="btn-pro">GO PRO</button>
+    </aside>
+
+    <main>
+        <div class="search-area">
+            <input type="text" id="prompt" placeholder="Beschrijf je AI droom...">
+            <button class="btn-gen" onclick="alert('Neural Engine start render...')">GENEREER</button>
         </div>
-    </header>
 
-    <div class="master-wrapper">
-        <aside>
-            <div class="side-widget">
-                <h3>ONDEKKEN</h3>
-                <div class="side-item">Alle Meesterwerken <span class="badge">1.4k</span></div>
-                <div class="side-item">Exclusief 8K <span class="badge">240</span></div>
-                <div class="side-item">Trending Nu 🔥</div>
+        <div class="grid">
+            <div class="card" onclick="openP('Neon Genesis', 'https://images.unsplash.com/photo-1614850523296-d8c1af93d400?q=80&w=2000')">
+                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1614850523296-d8c1af93d400?q=80&w=800')"></div>
+                <div class="card-info"><strong>Neon Genesis</strong></div>
             </div>
-            <div class="side-widget">
-                <h3>STATISTIEKEN</h3>
-                <div class="side-item">Live Subscribers <span id="dispSubs" style="color:var(--gold); font-weight:800;">2.405</span></div>
-                <div class="side-item">Daily Renders <span class="badge">18.2k</span></div>
+            <div class="card" onclick="openP('Golden Fluid', 'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2000')">
+                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=800')"></div>
+                <div class="card-info"><strong>Golden Fluid</strong></div>
             </div>
-        </aside>
+        </div>
+    </main>
+</div>
 
-        <main>
-            <div class="search-container">
-                <input type="text" id="pInput" placeholder="Genereer je eigen 8K visie...">
-                <button class="btn-gen" onclick="startGen()">GENEREER</button>
-            </div>
+<div id="modal" onclick="this.style.display='none'">
+    <img id="mImg" src="">
+    <a id="dl" href="" target="_blank" class="btn-dl">DOWNLOAD 8K RAW</a>
+</div>
 
-            <div class="filter-row">
-                <div class="chip active">All Art</div>
-                <div class="chip">Cinematic</div>
-                <div class="chip">Liquid Gold</div>
-                <div class="chip">Space 8K</div>
-                <div class="chip">Neon</div>
-            </div>
+<script>
+    function openP(title, url) {
+        document.getElementById('mImg').src = url;
+        document.getElementById('dl').href = url;
+        document.getElementById('modal').style.display = 'flex';
+    }
+    // Live counter simulatie
+    setInterval(() => {
+        let s = document.getElementById('subs');
+        s.innerText = (parseInt(s.innerText.replace('.','')) + 1).toLocaleString();
+    }, 5000);
+</script>
 
-            <div class="grid" id="mainGrid">
-                <div class="wall-card" onclick="openP('Neon Cyberpunk Metropolis', 'https://images.unsplash.com/photo-1614850523296-d8c1af93d400?q=80&w=2000')">
-                    <div class="wall-img" style="background-image: url('https://images.unsplash.com/photo-1614850523296-d8c1af93d400?q=80&w=800');"></div>
-                    <div class="wall-overlay">
-                        <span class="badge" style="background:var(--gold); color:black;">PREMIUM 8K</span>
-                        <h2 style="margin:10px 0 0;">Neon Genesis</h2>
-                    </div>
-                </div>
-                <div class="wall-card" onclick="openP('Liquid Gold Luxury', 'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2000')">
-                    <div class="wall-img" style="background-image: url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=800');"></div>
-                    <div class="wall-overlay">
-                        <span class="badge" style="background:var(--gold); color:black;">EXCLUSIVE</span>
-                        <h2 style="margin:10px 0 0;">Golden Fluidity</h2>
-                    </div>
-                </div>
-            </div>
-
-            <div style="margin-top: 60px; text-align:center; padding: 60px; background: linear-gradient(145deg, #0a0a0a, #000); border-radius: 40px; border: 1px solid var(--gold);">
-                <span class="badge">PRO ACCESS</span>
-                <h2 style="font-size: 3.5rem; margin: 20px 0;" id="dispPrice">€19.99</h2>
-                <p style="color:#666;">Onbeperkt toegang tot de volledige bibliotheek.</p>
-                <button class="btn-pro" style="padding: 20px 60px; font-size: 1.2rem;">RESERVEER NU</button>
-            </div>
-        </main>
-    </div>
-
-    <div id="previewBox" onclick="closeP()">
-        <img id="mImg" src="">
-        <h2 id="mTitle" style="color:var(--gold); margin-top:20px;"></h2>
-        <a id="dlLink" href="" target="_blank" class="dl-btn">DOWNLOAD 8K RAW (.PNG)</a>
-        <p style="color:#444; margin-top:15px; cursor:pointer;">Klik buiten beeld om te sluiten</p>
-    </div>
-
-    <div class="admin-trigger" onclick="openAdmin()">.</div>
-
-    <script>
-        function openAdmin() {
-            if(prompt("Wachtwoord:") === "admin123") {
-                document.getElementById('adminPanel').style.display = 'flex';
-            }
-        }
-        function updateLive() {
-            const p = document.getElementById('priceInp').value;
-            const s = document.getElementById('subInp').value;
-            document.getElementById('dispPrice').innerText = "€" + p;
-            document.getElementById('dispSubs').innerText = Number(s).toLocaleString();
-        }
-        function openP(title, url) {
-            document.getElementById('mImg').src = url;
-            document.getElementById('mTitle').innerText = title;
-            document.getElementById('dlLink').href = url;
-            document.getElementById('previewBox').style.display = 'flex';
-        }
-        function closeP() { document.getElementById('previewBox').style.display = 'none'; }
-        function startGen() {
-            const p = document.getElementById('pInput').value;
-            if(p) alert("Neural Engine start render voor: " + p);
-        }
-        // Live counter
-        let count = 2405;
-        setInterval(() => {
-            count += Math.floor(Math.random() * 2);
-            document.getElementById('dispSubs').innerText = count.toLocaleString();
-        }, 4000);
-    </script>
 </body>
 </html>

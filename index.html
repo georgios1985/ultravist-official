@@ -3,206 +3,157 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ULTRAVIST PRO | 8K AI Wallpapers</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap" rel="stylesheet">
+    <title>ULTRAVIST | 8K AI Wallpapers</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #d4af37; --bg: #050505; --sidebar: #0a0a0a; --card: #111; --accent: rgba(212,175,55,0.1); }
-        * { box-sizing: border-box; transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
-        body { margin: 0; background: var(--bg); color: white; font-family: 'Plus Jakarta Sans', sans-serif; display: flex; flex-direction: column; min-height: 100vh; }
+        :root { --gold: #d4af37; --bg: #050505; --sidebar: #0a0a0a; --card: #111; }
+        * { box-sizing: border-box; transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        body { margin: 0; background: var(--bg); color: white; font-family: 'Plus Jakarta Sans', sans-serif; }
 
-        /* ADMIN BALK */
-        #adminBar { display: none; background: var(--gold); color: black; padding: 12px 5%; font-weight: bold; position: fixed; top: 0; width: 100%; z-index: 10000; justify-content: space-between; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
-        .admin-inputs input { border: 1px solid black; padding: 5px; border-radius: 4px; background: transparent; font-weight: bold; width: 80px; }
+        /* HEADER & LOGO */
+        header { display: flex; justify-content: space-between; padding: 20px 5%; align-items: center; background: rgba(0,0,0,0.9); backdrop-filter: blur(10px); border-bottom: 1px solid #222; position: sticky; top: 0; z-index: 1000; }
+        .logo-wrap { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        .logo-icon { width: 35px; height: 35px; background: var(--gold); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: black; font-weight: 800; font-size: 1.2rem; }
+        .logo-text { font-size: 1.5rem; font-weight: 800; letter-spacing: 4px; color: var(--gold); }
 
-        /* HEADER */
-        header { display: flex; justify-content: space-between; padding: 25px 5%; align-items: center; background: rgba(0,0,0,0.9); backdrop-filter: blur(10px); border-bottom: 1px solid #222; position: sticky; top: 0; z-index: 1000; }
-        .logo { font-size: 1.6rem; font-weight: 800; letter-spacing: 5px; color: var(--gold); cursor: pointer; }
-        .btn-pro { background: var(--gold); border: none; padding: 12px 28px; border-radius: 12px; font-weight: 800; cursor: pointer; box-shadow: 0 4px 15px rgba(212,175,55,0.2); }
-        .btn-pro:hover { transform: scale(1.05); }
-
-        /* CONTAINER */
-        .main-container { display: flex; flex: 1; padding: 40px 5%; gap: 40px; }
-
-        /* SIDEBAR (Lumina Style) */
+        /* MAIN LAYOUT */
+        .container { display: flex; padding: 40px 5%; gap: 40px; }
+        
+        /* SIDEBAR */
         aside { width: 280px; flex-shrink: 0; }
-        .menu-box { background: var(--sidebar); border: 1px solid #222; border-radius: 24px; padding: 25px; margin-bottom: 30px; }
-        .menu-box h3 { font-size: 0.75rem; color: #555; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
-        .menu-item { display: flex; justify-content: space-between; padding: 12px 0; color: #888; cursor: pointer; font-size: 0.95rem; border-bottom: 1px solid #151515; }
-        .menu-item:hover { color: var(--gold); transform: translateX(5px); }
-        .count { background: #1a1a1a; padding: 3px 10px; border-radius: 8px; font-size: 0.75rem; color: #666; }
+        .menu-box { background: var(--sidebar); border: 1px solid #222; border-radius: 20px; padding: 25px; margin-bottom: 25px; }
+        .menu-box h3 { font-size: 0.7rem; color: #555; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
+        .menu-item { display: flex; justify-content: space-between; padding: 12px 0; color: #888; cursor: pointer; border-bottom: 1px solid #151515; font-size: 0.9rem; }
+        .menu-item:hover { color: var(--gold); padding-left: 5px; }
 
         /* CONTENT */
         main { flex: 1; }
-        .hero-text h1 { font-size: 4rem; margin: 0; font-weight: 800; letter-spacing: -2px; }
-        .hero-text h1 span { color: var(--gold); }
-        
-        /* SEARCH */
-        .search-wrap { background: #111; border: 1px solid #333; border-radius: 20px; display: flex; padding: 8px; margin: 40px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-        .search-wrap input { background: transparent; border: none; color: white; flex: 1; padding: 15px; outline: none; font-size: 1rem; }
-        .btn-search { background: var(--gold); border: none; padding: 0 35px; border-radius: 15px; font-weight: 800; cursor: pointer; }
+        .search-wrap { display: flex; background: #111; border: 1px solid #333; border-radius: 15px; padding: 5px; margin-bottom: 30px; }
+        .search-wrap input { background: transparent; border: none; color: white; flex: 1; padding: 15px; outline: none; }
+        .btn-gen { background: var(--gold); border: none; padding: 10px 30px; border-radius: 12px; font-weight: 800; cursor: pointer; }
 
         /* FILTERS */
-        .filters { display: flex; gap: 12px; margin-bottom: 40px; overflow-x: auto; padding-bottom: 10px; }
-        .chip { background: #111; border: 1px solid #222; padding: 10px 24px; border-radius: 50px; cursor: pointer; color: #777; font-size: 0.85rem; white-space: nowrap; }
-        .chip.active, .chip:hover { border-color: var(--gold); color: var(--gold); background: var(--accent); }
+        .filters { display: flex; gap: 10px; margin-bottom: 35px; overflow-x: auto; }
+        .chip { background: #111; border: 1px solid #222; padding: 10px 20px; border-radius: 50px; cursor: pointer; color: #666; white-space: nowrap; font-size: 0.8rem; }
+        .chip:hover, .chip.active { border-color: var(--gold); color: var(--gold); background: rgba(212,175,55,0.05); }
 
-        /* GRID */
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; }
-        .card { background: var(--card); border-radius: 28px; border: 1px solid #222; overflow: hidden; position: relative; cursor: pointer; height: 450px; }
-        .card:hover { border-color: var(--gold); transform: translateY(-12px); box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
+        /* GALLERY */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
+        .card { background: var(--card); border-radius: 25px; border: 1px solid #222; overflow: hidden; position: relative; cursor: pointer; height: 400px; }
+        .card:hover { border-color: var(--gold); transform: translateY(-10px); }
         .card-img { width: 100%; height: 100%; background-size: cover; background-position: center; }
-        .card-overlay { position: absolute; bottom: 0; width: 100%; padding: 40px 30px; background: linear-gradient(transparent, rgba(0,0,0,0.95)); opacity: 0; }
+        .card-overlay { position: absolute; bottom: 0; width: 100%; padding: 30px; background: linear-gradient(transparent, rgba(0,0,0,0.9)); opacity: 0; }
         .card:hover .card-overlay { opacity: 1; }
-        .tag { background: var(--gold); color: black; font-size: 0.7rem; font-weight: 800; padding: 5px 12px; border-radius: 6px; text-transform: uppercase; margin-bottom: 10px; display: inline-block; }
 
         /* PREVIEW MODAL */
-        #previewModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 20000; align-items: center; justify-content: center; flex-direction: column; padding: 20px; }
-        #previewModal img { max-width: 90%; max-height: 75%; border-radius: 20px; border: 1px solid var(--gold); box-shadow: 0 0 60px rgba(212,175,55,0.3); }
-        .btn-download { background: var(--gold); border: none; padding: 15px 40px; border-radius: 12px; font-weight: 800; margin-top: 30px; cursor: pointer; font-size: 1rem; }
+        #previewModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 20000; align-items: center; justify-content: center; flex-direction: column; }
+        #previewModal img { max-width: 90%; max-height: 75%; border-radius: 20px; border: 1px solid var(--gold); }
+        .modal-btns { margin-top: 30px; display: flex; gap: 20px; }
+        .btn-dl { background: var(--gold); border: none; padding: 15px 40px; border-radius: 12px; font-weight: 800; cursor: pointer; text-decoration: none; color: black; }
+        .btn-close { background: #333; color: white; border: none; padding: 15px 30px; border-radius: 12px; cursor: pointer; }
 
-        .admin-trigger { position: fixed; bottom: 15px; left: 15px; opacity: 0.03; cursor: pointer; font-size: 10px; color: white; }
+        .admin-trigger { position: fixed; bottom: 10px; left: 10px; opacity: 0.05; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <div id="adminBar">
-        <span>ULTRAVIST CONTROL</span>
-        <div class="admin-inputs">
-            Prijs: € <input type="number" id="priceInp" value="19.99" onchange="updateLive()">
-            Subs: <input type="number" id="subInp" value="2405" onchange="updateLive()">
-            <button onclick="closeAdmin()" style="background:black; color:white; border:none; padding:5px 15px; border-radius:5px; margin-left:15px; cursor:pointer;">Save</button>
-        </div>
-    </div>
-
     <header>
-        <div class="logo">ULTRAVIST</div>
-        <div style="display: flex; gap: 30px; align-items: center;">
-            <span style="color:#888; cursor:pointer; font-weight:700;">Discover</span>
-            <span style="color:#888; cursor:pointer; font-weight:700;">8K Live</span>
-            <button class="btn-pro">GET FULL ACCESS</button>
+        <div class="logo-wrap" onclick="location.reload()">
+            <div class="logo-icon">U</div>
+            <div class="logo-text">ULTRAVIST</div>
         </div>
+        <button style="background:var(--gold); border:none; padding:12px 25px; border-radius:10px; font-weight:800; cursor:pointer;">GO PRO</button>
     </header>
 
-    <div class="main-container">
+    <div class="container">
         <aside>
             <div class="menu-box">
-                <h3>Library</h3>
-                <div class="menu-item">All Artworks <span class="count">1.4k</span></div>
-                <div class="menu-item">Exclusive 8K <span class="count">240</span></div>
-                <div class="menu-item">Trending <span class="count">🔥</span></div>
+                <h3>ONDEKKEN</h3>
+                <div class="menu-item" onclick="filter('all')">Alle Wallpapers <span style="color:var(--gold)">842</span></div>
+                <div class="menu-item" onclick="filter('live')">8K Live Video's <span>64</span></div>
+                <div class="menu-item" onclick="filter('trending')">Populair 🔥</div>
             </div>
             <div class="menu-box">
-                <h3>Categories</h3>
-                <div class="menu-item">Cyberpunk <span class="count">156</span></div>
-                <div class="menu-item">Liquid Gold <span class="count">82</span></div>
-                <div class="menu-item">Deep Space <span class="count">45</span></div>
-            </div>
-            <div class="menu-box">
-                <h3>Statistics</h3>
-                <div class="menu-item">Total Subs <span class="count" id="dispSubs">2.405</span></div>
-                <div class="menu-item">Daily Active <span class="count">18.2k</span></div>
+                <h3>STATISTIEKEN</h3>
+                <div class="menu-item">Live Subscribers <span id="subCounter" style="color:var(--gold); font-weight:bold;">2.405</span></div>
+                <div class="menu-item">Daily Renders <span>14.2k</span></div>
             </div>
         </aside>
 
         <main>
-            <div class="hero-text">
-                <h1>Unlimited <span>8K</span> Vision</h1>
-                <p style="color:#666; font-size: 1.2rem; margin-top: 15px;">De enige plek voor pixel-perfecte AI generaties.</p>
-            </div>
-
             <div class="search-wrap">
-                <input type="text" id="prompt" placeholder="Beschrijf je 8K meesterwerk...">
-                <button class="btn-search" onclick="gen()">GENERATE</button>
+                <input type="text" id="promptInput" placeholder="Wat wil je dat de AI maakt?">
+                <button class="btn-gen" onclick="startGen()">GENEREER</button>
             </div>
 
             <div class="filters">
-                <div class="chip active">All Art</div>
-                <div class="chip">Cinematic</div>
-                <div class="chip">Abstract</div>
-                <div class="chip">Live Video</div>
-                <div class="chip">Neon 8K</div>
+                <div class="chip active" onclick="filter('all')">Alles</div>
+                <div class="chip" onclick="filter('neon')">Neon 8K</div>
+                <div class="chip" onclick="filter('nature')">Nature</div>
+                <div class="chip" onclick="filter('abstract')">Abstract Gold</div>
+                <div class="chip" onclick="filter('space')">Space</div>
             </div>
 
-            <div class="grid">
-                <div class="card" onclick="openPreview('Neon Cyberpunk City', 'https://images.unsplash.com/photo-1614850523296-d8c1af93d400?w=1200')">
-                    <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1614850523296-d8c1af93d400?w=800');"></div>
-                    <div class="card-overlay">
-                        <span class="tag">PRO 8K</span>
-                        <h2 style="margin:0; font-size:1.5rem;">Neon Genesis</h2>
-                    </div>
+            <div class="grid" id="mainGrid">
+                <div class="card" onclick="openMe('Neon Genesis', 'https://images.unsplash.com/photo-1614850523296-d8c1af93d400?q=80&w=2000')">
+                    <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1614850523296-d8c1af93d400?q=80&w=800')"></div>
+                    <div class="card-overlay"><strong>Neon Genesis</strong><br><small style="color:var(--gold)">PREMIUM 8K</small></div>
                 </div>
-                <div class="card" onclick="openPreview('Liquid Gold Luxury', 'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=1200')">
-                    <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=800');"></div>
-                    <div class="card-overlay">
-                        <span class="tag">GOLD EDITION</span>
-                        <h2 style="margin:0; font-size:1.5rem;">Golden Fluidity</h2>
-                    </div>
+                <div class="card" onclick="openMe('Golden Fluid', 'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2000')">
+                    <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=800')"></div>
+                    <div class="card-overlay"><strong>Golden Fluid</strong><br><small style="color:var(--gold)">EXCLUSIVE</small></div>
                 </div>
-                <div class="card" onclick="openPreview('Deep Galaxy V4', 'https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=1200')">
-                    <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=800');"></div>
-                    <div class="card-overlay">
-                        <span class="tag">LIVE VIDEO</span>
-                        <h2 style="margin:0; font-size:1.5rem;">Deep Space Horizon</h2>
-                    </div>
+                <div class="card" onclick="openMe('Cosmos 8K', 'https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&w=2000')">
+                    <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&w=800')"></div>
+                    <div class="card-overlay"><strong>Cosmos Horizon</strong><br><small style="color:var(--gold)">LIVE VIDEO</small></div>
                 </div>
-            </div>
-
-            <div style="margin-top: 60px; text-align:center; padding: 60px; background: linear-gradient(145deg, #0a0a0a, #000); border-radius: 40px; border: 1px solid var(--gold);">
-                <span class="tag">Premium Access</span>
-                <h2 style="font-size: 3rem; margin: 15px 0;" id="dispPrice">€19.99</h2>
-                <p style="color:#888;">Onbeperkt downloaden in 8K RAW formaat.</p>
-                <button class="btn-pro" style="padding: 18px 60px; font-size: 1.1rem; margin-top: 20px;">GET PRO NOW</button>
             </div>
         </main>
     </div>
 
-    <div id="previewModal" onclick="closePreview()">
-        <img id="mImg" src="">
-        <h2 id="mTitle"></h2>
-        <button class="btn-download">DOWNLOAD 8K RAW (.PNG)</button>
-        <p style="color:#555; margin-top:15px; cursor:pointer;">Klik buiten de afbeelding om te sluiten</p>
+    <div id="previewModal">
+        <img id="modalImg" src="">
+        <div class="modal-btns">
+            <a id="downloadBtn" href="" target="_blank" class="btn-dl">DOWNLOAD 8K RAW</a>
+            <button class="btn-close" onclick="closeMe()">SLUITEN</button>
+        </div>
+        <h2 id="modalTitle" style="margin-top:20px; color:var(--gold)"></h2>
     </div>
 
-    <div class="admin-trigger" onclick="openAdmin()">.</div>
+    <div class="admin-trigger" onclick="alert('Admin Login: admin123')">.</div>
 
     <script>
-        function openAdmin() {
-            if(prompt("Toegangscode:") === "admin123") {
-                document.getElementById('adminBar').style.display = 'flex';
-            }
-        }
-        function closeAdmin() { document.getElementById('adminBar').style.display = 'none'; }
-
-        function updateLive() {
-            const p = document.getElementById('priceInp').value;
-            const s = document.getElementById('subInp').value;
-            document.getElementById('dispPrice').innerText = "€" + p;
-            document.getElementById('dispSubs').innerText = Number(s).toLocaleString();
+        // Preview functies
+        function openMe(title, url) {
+            document.getElementById('modalImg').src = url;
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('downloadBtn').href = url;
+            document.getElementById('previewModal').style.display = 'flex';
         }
 
-        function openPreview(title, url) {
-            const modal = document.getElementById('previewModal');
-            document.getElementById('mImg').src = url;
-            document.getElementById('mTitle').innerText = title;
-            modal.style.display = 'flex';
-        }
-
-        function closePreview() {
+        function closeMe() {
             document.getElementById('previewModal').style.display = 'none';
         }
 
-        function gen() {
-            const p = document.getElementById('prompt').value;
-            if(p) alert("Ultravist Neural Engine is bezig met: " + p);
+        // Filter actie
+        function filter(type) {
+            console.log("Filteren op: " + type);
+            // Visueel effect op de chips
+            document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+            event.target.classList.add('active');
         }
 
-        // Filter chips interactie
-        document.querySelectorAll('.chip').forEach(chip => {
-            chip.addEventListener('click', function() {
-                document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
+        // Subscriber counter simulatie (loopt live op!)
+        let subs = 2405;
+        setInterval(() => {
+            subs += Math.floor(Math.random() * 3);
+            document.getElementById('subCounter').innerText = subs.toLocaleString();
+        }, 5000);
+
+        function startGen() {
+            let p = document.getElementById('promptInput').value;
+            if(p) alert("ULTRAVIST Neural Engine start met: " + p);
+        }
     </script>
 </body>
 </html>

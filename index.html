@@ -3,48 +3,242 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ULTRAVIST PRO</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@700&family=Manrope:wght@400;600&display=swap" rel="stylesheet">
+    <title>Lumina | Ultravist Engine</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        bg: '#050505',
+                        card: '#0a0a0a',
+                        primary: '#d1ff1a', /* Lumina Lime */
+                        border: '#1f1f1f',
+                        text: '#a1a1aa'
+                    },
+                    fontFamily: {
+                        sans: ['Manrope', 'sans-serif'],
+                        heading: ['Outfit', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
-        :root { --primary: #ccff00; --bg: #050505; --card: #0f0f0f; --border: #1f1f1f; }
-        * { margin: 0; padding: 0; box-sizing: border-box; transition: 0.2s; }
-        body { font-family: 'Manrope', sans-serif; background: var(--bg); color: white; display: flex; height: 100vh; overflow: hidden; }
+        /* NOISE TEXTURE OVERLAY */
+        .noise-bg::before {
+            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.04; pointer-events: none; z-index: 50;
+        }
+
+        /* SCROLLBAR */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
         
-        /* Noise texture overlay uit jouw CSS */
-        .noise::before { content: ''; position: fixed; inset: 0; z-index: 1000; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E"); opacity: 0.03; pointer-events: none; }
-
-        /* Sidebar */
-        aside { width: 280px; background: #000; border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 30px; }
-        .logo { font-family: 'Outfit', sans-serif; font-size: 1.5rem; color: var(--primary); margin-bottom: 50px; font-weight: 700; }
-        .nav-item { padding: 14px 18px; border-radius: 12px; color: #71717a; cursor: pointer; font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; gap: 12px; }
-        .nav-item.active, .nav-item:hover { background: rgba(209, 255, 26, 0.1); color: var(--primary); }
-
-        /* Main */
-        .viewport { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
-        .top-bar { padding: 20px 40px; display: flex; justify-content: flex-end; border-bottom: 1px solid var(--border); background: rgba(5,5,5,0.8); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; }
-        .user-pill { background: #18181b; border: 1px solid var(--border); padding: 8px 16px; border-radius: 50px; font-size: 0.85rem; display: flex; gap: 12px; }
-
-        /* Pages */
-        .page { display: none; padding: 60px 40px; animation: fadeIn 0.4s ease; }
-        .page.active { display: block; }
+        /* ANIMATIES */
+        .fade-in { animation: fadeIn 0.4s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* Cards */
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; margin-top: 30px; }
-        .stat-card { background: var(--card); border: 1px solid var(--border); padding: 30px; border-radius: 20px; }
-        .val { font-family: 'Outfit', sans-serif; font-size: 3rem; color: var(--primary); margin: 10px 0; }
         
-        .wallpaper-card { background: var(--card); border-radius: 20px; border: 1px solid var(--border); height: 400px; overflow: hidden; position: relative; cursor: pointer; }
-        .wallpaper-card:hover { border-color: var(--primary); transform: translateY(-5px); }
-        .card-img { width: 100%; height: 100%; background-size: cover; background-position: center; }
-
-        /* Settings */
-        input { width: 100%; background: #000; border: 1px solid #222; padding: 15px; border-radius: 12px; color: white; margin: 10px 0 25px; outline: none; }
-        .btn { background: var(--primary); color: black; border: none; padding: 15px; border-radius: 12px; font-weight: 700; cursor: pointer; width: 100%; }
+        .glow-hover:hover { box-shadow: 0 0 25px rgba(209, 255, 26, 0.2); border-color: #d1ff1a; }
     </style>
 </head>
-<body class="noise">
+<body class="bg-bg text-white font-sans h-screen flex overflow-hidden noise-bg selection:bg-primary selection:text-black">
 
-    <aside>
-        <div class="logo">ULTRAVIST</div>
-        <div class="nav-item active" onclick="show('explore', this)">🖼️ Explore</div>
+    <aside class="w-72 bg-black border-r border-border flex flex-col p-6 z-20 hidden md:flex">
+        <div class="flex items-center gap-3 mb-10 cursor-pointer">
+            <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-black font-bold font-heading text-xl">L</div>
+            <span class="font-heading font-bold text-2xl tracking-tight text-white">Lumina</span>
+        </div>
+
+        <nav class="flex-1 space-y-2">
+            <div class="text-xs font-bold text-gray-500 tracking-widest mb-4">MENU</div>
+            
+            <button onclick="router('home')" id="nav-home" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-text hover:bg-[#111] hover:text-white transition-all group active-nav">
+                <svg class="w-5 h-5 group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+                Explore Gallery
+            </button>
+
+            <button onclick="router('dashboard')" id="nav-dashboard" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-text hover:bg-[#111] hover:text-white transition-all group">
+                <svg class="w-5 h-5 group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                Admin Dashboard
+            </button>
+
+            <button onclick="router('settings')" id="nav-settings" class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-text hover:bg-[#111] hover:text-white transition-all group">
+                <svg class="w-5 h-5 group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                Settings
+            </button>
+        </nav>
+
+        <div class="mt-auto pt-6 border-t border-border">
+            <div class="flex items-center gap-3 px-2">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-primary to-green-400"></div>
+                <div>
+                    <div class="text-sm font-bold text-white">Georgios</div>
+                    <div class="text-xs text-primary font-mono">PRO MEMBER</div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col relative overflow-hidden">
+        
+        <header class="h-20 border-b border-border flex items-center justify-between px-8 bg-bg/80 backdrop-blur-md sticky top-0 z-10">
+            <div class="text-sm text-gray-400">Welcome back to the <span class="text-white font-bold">Lumina Engine</span></div>
+            <div class="flex items-center gap-4">
+                <div class="px-4 py-2 bg-[#111] border border-border rounded-full flex items-center gap-3">
+                    <span class="text-primary font-bold">🪙 9,963</span>
+                    <span class="w-px h-4 bg-gray-700"></span>
+                    <span class="text-xs text-gray-400">CREDITS AVAILABLE</span>
+                </div>
+                <button class="bg-primary text-black font-bold px-5 py-2 rounded-lg text-sm hover:shadow-[0_0_20px_rgba(209,255,26,0.4)] transition-all">
+                    + TOP UP
+                </button>
+            </div>
+        </header>
+
+        <div id="content-area" class="flex-1 overflow-y-auto p-8">
+            
+            <div id="page-home" class="page-section fade-in">
+                <div class="mb-8">
+                    <h1 class="font-heading text-5xl font-bold mb-2">Transform Your <span class="text-primary">Phone</span></h1>
+                    <p class="text-gray-400 text-lg">Premium 8K AI Wallpapers selected for you.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="group relative h-[450px] bg-card border border-border rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:border-primary/50 hover:shadow-[0_0_40px_-10px_rgba(209,255,26,0.15)]">
+                        <div class="absolute top-4 left-4 bg-primary text-black text-xs font-bold px-3 py-1 rounded-md z-10">LIVE 8K</div>
+                        <img src="https://images.unsplash.com/photo-1614850523296-d8c1af93d400?q=80&w=800" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                        <div class="absolute bottom-0 w-full p-6 bg-gradient-to-t from-black via-black/80 to-transparent">
+                            <h3 class="font-heading text-xl font-bold mb-1">Neon Metropolis</h3>
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs text-gray-400">Cyberpunk Collection</span>
+                                <span class="text-primary font-bold text-sm">5 Credits</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="group relative h-[450px] bg-card border border-border rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:border-primary/50 hover:shadow-[0_0_40px_-10px_rgba(209,255,26,0.15)]">
+                        <div class="absolute top-4 left-4 bg-white/10 backdrop-blur-md border border-white/10 text-white text-xs font-bold px-3 py-1 rounded-md z-10">EXCLUSIVE</div>
+                        <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=800" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                        <div class="absolute bottom-0 w-full p-6 bg-gradient-to-t from-black via-black/80 to-transparent">
+                            <h3 class="font-heading text-xl font-bold mb-1">Liquid Gold</h3>
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs text-gray-400">Abstract Series</span>
+                                <span class="text-primary font-bold text-sm">5 Credits</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="group relative h-[450px] bg-card border border-border rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:border-primary/50 hover:shadow-[0_0_40px_-10px_rgba(209,255,26,0.15)]">
+                        <img src="https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?q=80&w=800" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                        <div class="absolute bottom-0 w-full p-6 bg-gradient-to-t from-black via-black/80 to-transparent">
+                            <h3 class="font-heading text-xl font-bold mb-1">Dark Matter</h3>
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs text-gray-400">Space Collection</span>
+                                <span class="text-primary font-bold text-sm">5 Credits</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="page-dashboard" class="page-section hidden fade-in">
+                <h1 class="font-heading text-4xl font-bold mb-8">Admin <span class="text-primary">Dashboard</span></h1>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-card border border-border p-8 rounded-2xl relative overflow-hidden">
+                        <div class="absolute top-0 right-0 p-4 opacity-10">
+                            <svg class="w-32 h-32 text-primary" fill="currentColor" viewBox="0 0 20 20"><path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path><path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path></svg>
+                        </div>
+                        <h3 class="text-gray-500 text-xs font-bold tracking-widest uppercase mb-2">Total Revenue</h3>
+                        <div class="text-5xl font-heading font-bold text-white mb-2">€ 14,250</div>
+                        <div class="text-primary text-sm font-bold flex items-center gap-1">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                            +12.4% vs last month
+                        </div>
+                    </div>
+
+                    <div class="bg-card border border-border p-8 rounded-2xl">
+                        <h3 class="text-gray-500 text-xs font-bold tracking-widest uppercase mb-2">Active Subscribers</h3>
+                        <div class="text-5xl font-heading font-bold text-white mb-2">2,405</div>
+                        <div class="text-green-500 text-sm font-bold flex items-center gap-2">
+                            <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                            84 users online now
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="page-settings" class="page-section hidden fade-in">
+                <h1 class="font-heading text-4xl font-bold mb-8">Account <span class="text-primary">Settings</span></h1>
+                
+                <div class="max-w-xl bg-card border border-border p-8 rounded-2xl">
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 mb-2 uppercase tracking-wide">Display Name</label>
+                            <input type="text" value="Georgios" class="w-full bg-black border border-border text-white px-4 py-3 rounded-xl focus:border-primary focus:outline-none transition-colors">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 mb-2 uppercase tracking-wide">Email Address</label>
+                            <input type="email" value="admin@ultravist.com" class="w-full bg-black border border-border text-white px-4 py-3 rounded-xl focus:border-primary focus:outline-none transition-colors">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 mb-2 uppercase tracking-wide">Password</label>
+                            <input type="password" placeholder="••••••••" class="w-full bg-black border border-border text-white px-4 py-3 rounded-xl focus:border-primary focus:outline-none transition-colors">
+                        </div>
+                        <button class="w-full bg-primary text-black font-bold py-4 rounded-xl hover:shadow-[0_0_20px_rgba(209,255,26,0.3)] transition-all">
+                            Save Changes
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        // ROUTER LOGIC: Dit zorgt dat de pagina's wisselen zonder herladen
+        function router(pageId) {
+            // 1. Verberg alle secties
+            document.querySelectorAll('.page-section').forEach(el => {
+                el.classList.add('hidden');
+            });
+            
+            // 2. Toon de gekozen sectie
+            const target = document.getElementById('page-' + pageId);
+            if(target) target.classList.remove('hidden');
+
+            // 3. Update Navigatie Styling
+            document.querySelectorAll('.nav-item').forEach(el => {
+                el.classList.remove('bg-[#111]', 'text-white', 'text-primary');
+                el.classList.add('text-text');
+                
+                // Reset icon color
+                const icon = el.querySelector('svg');
+                if(icon) icon.classList.remove('text-primary');
+            });
+
+            // 4. Highlight actieve knop
+            const activeBtn = document.getElementById('nav-' + pageId);
+            if(activeBtn) {
+                activeBtn.classList.add('bg-[#111]', 'text-white');
+                activeBtn.querySelector('svg').classList.add('text-primary');
+            }
+
+            // 5. Scroll naar boven
+            document.getElementById('content-area').scrollTo(0,0);
+        }
+
+        // Init: Start op home
+        router('home');
+    </script>
+</body>
+</html>

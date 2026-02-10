@@ -20,12 +20,13 @@ export function Navbar() {
         
         <p className="text-[10px] font-black text-gray-600 uppercase tracking-[0.2em] mt-12 mb-6">Personal</p>
         <NavLink to="/dashboard" label="Dashboard" active={isActive('/dashboard')} />
+        <NavLink to="/settings" label="Settings" active={isActive('/settings')} />
       </div>
 
       <div className="mt-auto pt-8 border-t border-[#1f1f1f]">
         <div className="flex items-center justify-between gap-4">
           <Link to="/login" className="text-sm font-bold text-gray-400 hover:text-white">Login</Link>
-          <Link to="/register" className="bg-[#d1ff1a] text-black text-sm font-black px-6 py-2.5 rounded-full">Sign Up</Link>
+          <Link to="/register" className="bg-[#d1ff1a] text-black text-sm font-black px-6 py-2.5 rounded-full hover:scale-105 transition-all">Sign Up</Link>
         </div>
       </div>
     </nav>

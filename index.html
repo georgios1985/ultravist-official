@@ -3,182 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ULTRAVIST | Premium AI Engine</title>
-    
+    <title>ULTRAVIST PRO</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@700&family=Manrope:wght@400;600&display=swap" rel="stylesheet">
-    
     <style>
-        /* --- JOUW CSS VARIABELEN --- */
-        :root {
-            --primary: #d1ff1a; /* De Lime kleur (72 100% 55%) */
-            --background: #050505;
-            --card: #121212;
-            --border: #262626;
-            --radius: 0.75rem;
-        }
+        :root { --primary: #ccff00; --bg: #050505; --card: #0f0f0f; --border: #1f1f1f; }
+        * { margin: 0; padding: 0; box-sizing: border-box; transition: 0.2s; }
+        body { font-family: 'Manrope', sans-serif; background: var(--bg); color: white; display: flex; height: 100vh; overflow: hidden; }
+        
+        /* Noise texture overlay uit jouw CSS */
+        .noise::before { content: ''; position: fixed; inset: 0; z-index: 1000; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E"); opacity: 0.03; pointer-events: none; }
 
-        /* --- BASIS STYLING --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        /* Sidebar */
+        aside { width: 280px; background: #000; border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 30px; }
+        .logo { font-family: 'Outfit', sans-serif; font-size: 1.5rem; color: var(--primary); margin-bottom: 50px; font-weight: 700; }
+        .nav-item { padding: 14px 18px; border-radius: 12px; color: #71717a; cursor: pointer; font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; gap: 12px; }
+        .nav-item.active, .nav-item:hover { background: rgba(209, 255, 26, 0.1); color: var(--primary); }
 
-        body {
-            font-family: 'Manrope', sans-serif;
-            background-color: var(--background);
-            color: #ffffff;
-            min-height: 100vh;
-            display: flex;
-            overflow: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
+        /* Main */
+        .viewport { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
+        .top-bar { padding: 20px 40px; display: flex; justify-content: flex-end; border-bottom: 1px solid var(--border); background: rgba(5,5,5,0.8); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; }
+        .user-pill { background: #18181b; border: 1px solid var(--border); padding: 8px 16px; border-radius: 50px; font-size: 0.85rem; display: flex; gap: 12px; }
 
-        /* Noise texture overlay uit jouw code */
-        .noise-overlay::before {
-            content: ''; position: fixed; inset: 0; z-index: 9999;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-            opacity: 0.03; pointer-events: none;
-        }
-
-        /* --- LAYOUT --- */
-        aside {
-            width: 280px; background: #000; border-right: 1px solid var(--border);
-            display: flex; flex-direction: column; padding: 32px 24px; flex-shrink: 0; z-index: 100;
-        }
-
-        .viewport { flex: 1; overflow-y: auto; position: relative; display: flex; flex-direction: column; }
-
-        /* --- NAVIGATIE --- */
-        .logo { font-family: 'Outfit', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--primary); margin-bottom: 48px; display: flex; align-items: center; gap: 10px; }
-        .nav-item { padding: 12px 16px; border-radius: var(--radius); color: #646464; cursor: pointer; font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; gap: 12px; }
-        .nav-item:hover, .nav-item.active { background: rgba(209, 255, 26, 0.1); color: var(--primary); }
-
-        .top-bar { padding: 20px 48px; border-bottom: 1px solid var(--border); display: flex; justify-content: flex-end; align-items: center; backdrop-filter: blur(16px); background: rgba(0,0,0,0.5); position: sticky; top: 0; z-index: 50; }
-        .user-pill { background: var(--card); border: 1px solid var(--border); padding: 8px 16px; border-radius: 50px; display: flex; gap: 12px; font-size: 0.9rem; align-items: center; }
-
-        /* --- PAGINA'S & ANIMATIE --- */
-        .page { display: none; padding: 64px 48px; animation: fadeIn 0.5s ease forwards; }
+        /* Pages */
+        .page { display: none; padding: 60px 40px; animation: fadeIn 0.4s ease; }
         .page.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- CARDS & GRID --- */
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; margin-top: 40px; }
+        /* Cards */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; margin-top: 30px; }
+        .stat-card { background: var(--card); border: 1px solid var(--border); padding: 30px; border-radius: 20px; }
+        .val { font-family: 'Outfit', sans-serif; font-size: 3rem; color: var(--primary); margin: 10px 0; }
         
-        .wallpaper-card {
-            background: var(--card); border-radius: 20px; border: 1px solid var(--border);
-            height: 450px; overflow: hidden; position: relative; cursor: pointer;
-            transition: transform 0.3s ease, border-color 0.3s ease;
-        }
-
-        .wallpaper-card:hover {
-            transform: translateY(-4px); border-color: rgba(209, 255, 26, 0.3);
-            box-shadow: 0 0 40px -10px rgba(209, 255, 26, 0.15);
-        }
-
+        .wallpaper-card { background: var(--card); border-radius: 20px; border: 1px solid var(--border); height: 400px; overflow: hidden; position: relative; cursor: pointer; }
+        .wallpaper-card:hover { border-color: var(--primary); transform: translateY(-5px); }
         .card-img { width: 100%; height: 100%; background-size: cover; background-position: center; }
-        .card-overlay { position: absolute; bottom: 0; width: 100%; padding: 32px; background: linear-gradient(transparent, rgba(0,0,0,0.9)); }
 
-        /* --- DASHBOARD STATS --- */
-        .stat-card { background: var(--card); border: 1px solid var(--border); padding: 32px; border-radius: 20px; }
-        .stat-label { font-size: 0.75rem; color: #646464; letter-spacing: 1px; text-transform: uppercase; }
-        .stat-value { font-family: 'Outfit', sans-serif; font-size: 3rem; color: var(--primary); margin-top: 8px; }
-
-        /* --- UI COMPONENTS --- */
-        .btn-primary { background: var(--primary); color: black; border: none; padding: 14px 28px; border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.2s; }
-        .btn-primary:hover { box-shadow: 0 0 20px -2px rgba(209, 255, 26, 0.4); }
-        input { width: 100%; background: #000; border: 1px solid var(--border); padding: 14px; border-radius: 12px; color: white; margin-top: 8px; outline: none; }
-        input:focus { border-color: var(--primary); }
+        /* Settings */
+        input { width: 100%; background: #000; border: 1px solid #222; padding: 15px; border-radius: 12px; color: white; margin: 10px 0 25px; outline: none; }
+        .btn { background: var(--primary); color: black; border: none; padding: 15px; border-radius: 12px; font-weight: 700; cursor: pointer; width: 100%; }
     </style>
 </head>
-<body class="noise-overlay">
+<body class="noise">
 
     <aside>
         <div class="logo">ULTRAVIST</div>
-        
-        <div style="color: #404040; font-size: 0.7rem; letter-spacing: 1px; margin-bottom: 16px; font-weight: bold;">NAVIGATION</div>
-        <div class="nav-item active" id="nav-home" onclick="showPage('home', this)">Explore Gallery</div>
-        <div class="nav-item" id="nav-dash" onclick="showPage('dashboard', this)">Admin Dashboard</div>
-        <div class="nav-item" id="nav-sett" onclick="showPage('settings', this)">Account Settings</div>
-        
-        <div style="margin-top: auto;">
-            <div class="nav-item" style="color: #ff4444; opacity: 0.6;">Logout</div>
-        </div>
-    </aside>
-
-    <div class="viewport">
-        <div class="top-bar">
-            <div class="user-pill">
-                <span style="color: var(--primary); font-weight: 700;">🪙 9,963 Credits</span>
-                <span style="color: #262626;">|</span>
-                <span>Georgios</span>
-            </div>
-        </div>
-
-        <div id="home" class="page active">
-            <h1 style="font-family: 'Outfit', sans-serif; font-size: 4rem;">Transform Your <span style="color: var(--primary);">Phone</span></h1>
-            <p style="color: #646464; font-size: 1.2rem; margin-top: 10px;">Premium live wallpapers powered by AI neural rendering.</p>
-            
-            <div class="grid">
-                <div class="wallpaper-card" onclick="alert('Downloading 8K RAW file...')">
-                    <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1614850523296-d8c1af93d400?w=800');"></div>
-                    <div class="card-overlay">
-                        <div style="font-weight: 700; font-size: 1.2rem;">Neon Genesis</div>
-                        <div style="font-size: 0.8rem; color: #646464;">8K Render • 5 Credits</div>
-                    </div>
-                </div>
-                <div class="wallpaper-card" onclick="alert('Downloading 8K RAW file...')">
-                    <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=800');"></div>
-                    <div class="card-overlay">
-                        <div style="font-weight: 700; font-size: 1.2rem;">Golden Fluidity</div>
-                        <div style="font-size: 0.8rem; color: #646464;">Exclusive • 5 Credits</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="dashboard" class="page">
-            <h1 style="font-family: 'Outfit', sans-serif; font-size: 2.5rem;">Earnings <span style="color: var(--primary);">Overview</span></h1>
-            <div class="grid">
-                <div class="stat-card">
-                    <div class="stat-label">Monthly Revenue</div>
-                    <div class="stat-value">€ 14,250</div>
-                    <div style="color: var(--primary); font-size: 0.8rem; margin-top: 10px;">↑ 12.4% vs last month</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Active Users</div>
-                    <div class="stat-value">2,405</div>
-                    <div style="color: var(--primary); font-size: 0.8rem; margin-top: 10px;">84 online now</div>
-                </div>
-            </div>
-        </div>
-
-        <div id="settings" class="page">
-            <h1 style="font-family: 'Outfit', sans-serif; font-size: 2.5rem;">Account <span style="color: var(--primary);">Settings</span></h1>
-            <div style="max-width: 500px; background: var(--card); border: 1px solid var(--border); padding: 40px; border-radius: 20px; margin-top: 32px;">
-                <label style="color: #646464; font-size: 0.8rem;">DISPLAY NAME</label>
-                <input type="text" value="Georgios">
-                <label style="color: #646464; font-size: 0.8rem; margin-top: 20px; display: block;">EMAIL ADDRESS</label>
-                <input type="email" value="admin@ultravist.com">
-                <button class="btn-primary" style="margin-top: 30px;" onclick="alert('Changes saved!')">Save Changes</button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // DE MOTOR: Pagina-wisselingen zonder herladen
-        function showPage(pageId, btn) {
-            // Verberg alle pagina's
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            // Toon de gekozen pagina
-            document.getElementById(pageId).classList.add('active');
-            
-            // Sidebar styling
-            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-            btn.classList.add('active');
-            
-            // Scroll naar boven
-            document.querySelector('.viewport').scrollTo(0, 0);
-        }
-
-        // Simuleer de PWA/React logica
-        console.log("Ultravist Engine V4 Active");
-    </script>
-</body>
-</html>
+        <div class="nav-item active" onclick="show('explore', this)">🖼️ Explore</div>

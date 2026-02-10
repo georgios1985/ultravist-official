@@ -1,104 +1,109 @@
 <!DOCTYPE html>
-<html lang="nl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ULTRAVIST ENGINE V4</title>
+    <title>Ultravist | Premium Live Wallpapers</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #d4af37; --bg: #000000; --side: #0a0a0a; }
-        body { margin: 0; background: var(--bg); color: white; font-family: sans-serif; display: flex; flex-direction: column; }
+        :root { --lime: #ccff00; --bg: #0a0a0a; --card: #141414; }
+        body { margin: 0; background: var(--bg); color: white; font-family: 'Inter', sans-serif; }
         
-        /* HEADER */
-        header { display: flex; justify-content: space-between; padding: 20px 5%; background: #000; border-bottom: 2px solid var(--gold); position: sticky; top: 0; z-index: 100; }
-        .logo { font-size: 1.8rem; font-weight: bold; color: var(--gold); letter-spacing: 3px; }
+        /* Navigatie (Lumina Style) */
+        nav { display: flex; justify-content: space-between; padding: 20px 5%; align-items: center; border-bottom: 1px solid #222; }
+        .logo { display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 1.2rem; }
+        .logo-icon { background: var(--lime); color: black; padding: 5px 10px; border-radius: 8px; }
+        .nav-links a { color: #888; text-decoration: none; margin: 0 15px; font-size: 0.9rem; }
+        .btn-signup { background: var(--lime); color: black; padding: 10px 20px; border-radius: 20px; border: none; font-weight: bold; cursor: pointer; }
 
-        /* LUMINA LAYOUT */
-        .master-container { display: flex; padding: 30px 5%; gap: 30px; }
-        
-        /* SIDEBAR */
-        aside { width: 280px; flex-shrink: 0; }
-        .side-box { background: var(--side); border: 1px solid #222; border-radius: 15px; padding: 20px; margin-bottom: 20px; border-left: 4px solid var(--gold); }
-        .side-box h3 { font-size: 0.8rem; color: var(--gold); text-transform: uppercase; margin-bottom: 15px; }
-        .menu-item { display: flex; justify-content: space-between; padding: 10px 0; color: #888; border-bottom: 1px solid #1a1a1a; cursor: pointer; }
-        .menu-item:hover { color: white; }
+        /* Hero (Lumina Look) */
+        .hero { padding: 100px 5%; text-align: left; }
+        .badge { background: #1a1a1a; border: 1px solid #333; padding: 5px 15px; border-radius: 20px; color: #888; font-size: 0.8rem; }
+        h1 { font-size: 5rem; margin: 20px 0; font-weight: 900; line-height: 0.9; }
+        h1 span { color: var(--lime); }
+        .hero p { color: #888; font-size: 1.2rem; max-width: 500px; }
 
-        /* MAIN CONTENT */
-        main { flex: 1; }
-        .search-area { background: #111; border: 1px solid #333; border-radius: 15px; display: flex; padding: 5px; margin-bottom: 30px; }
-        .search-area input { background: transparent; border: none; color: white; flex: 1; padding: 15px; outline: none; }
-        .btn-gen { background: var(--gold); border: none; padding: 0 30px; border-radius: 10px; font-weight: bold; cursor: pointer; }
+        /* Gallery Headers */
+        .gallery-header { padding: 0 5%; display: flex; justify-content: space-between; align-items: flex-end; }
+        .filters { display: flex; gap: 10px; margin-top: 20px; }
+        .filter { background: #111; border: 1px solid #222; color: #555; padding: 8px 20px; border-radius: 20px; cursor: pointer; }
+        .filter.active { background: var(--lime); color: black; border-color: var(--lime); }
 
-        /* GRID */
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
-        .card { background: #111; border-radius: 20px; overflow: hidden; border: 1px solid #222; cursor: pointer; position: relative; height: 350px; }
-        .card:hover { border-color: var(--gold); transform: translateY(-5px); }
+        /* Wallpaper Grid */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; padding: 50px 5%; }
+        .card { background: var(--card); border-radius: 24px; overflow: hidden; position: relative; border: 1px solid #222; cursor: pointer; height: 450px; }
+        .card:hover { border-color: var(--lime); transform: translateY(-5px); }
         .card-img { width: 100%; height: 100%; background-size: cover; background-position: center; }
-        .card-info { position: absolute; bottom: 0; width: 100%; padding: 20px; background: linear-gradient(transparent, #000); }
-
-        /* PREVIEW MODAL (GEEN WITTE POPUPS) */
-        #modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 1000; align-items: center; justify-content: center; flex-direction: column; }
-        #modal img { max-width: 80%; border: 2px solid var(--gold); border-radius: 15px; }
-        .btn-dl { background: var(--gold); border: none; padding: 15px 40px; border-radius: 10px; font-weight: bold; margin-top: 20px; cursor: pointer; text-decoration: none; color: black; }
+        .live-badge { position: absolute; top: 15px; left: 15px; background: var(--lime); color: black; padding: 4px 10px; border-radius: 5px; font-size: 0.7rem; font-weight: bold; }
+        .card-info { position: absolute; bottom: 0; width: 100%; padding: 25px; background: linear-gradient(transparent, rgba(0,0,0,0.9)); }
+        
+        /* Admin/Account Preview (Simulatie) */
+        .account-bar { background: #111; padding: 10px 5%; display: flex; justify-content: flex-end; gap: 20px; font-size: 0.8rem; border-bottom: 1px solid #222; }
+        .credits { color: var(--lime); font-weight: bold; }
     </style>
 </head>
 <body>
 
-<header>
-    <div class="logo">ULTRAVIST</div>
-    <button style="background:var(--gold); border:none; padding:10px 20px; border-radius:5px; font-weight:bold;">GO PRO</button>
-</header>
+    <div class="account-bar">
+        <span>Georgios (admin@ultravist.com)</span>
+        <span class="credits">🪙 9963 Credits</span>
+        <a href="#" style="color:#888; text-decoration:none;">Dashboard</a>
+    </div>
 
-<div class="master-container">
-    <aside>
-        <div class="side-box">
-            <h3>ONTDEKKEN</h3>
-            <div class="menu-item">8K Wallpapers <span>1.4k</span></div>
-            <div class="menu-item">Live Video's <span>62</span></div>
-            <div class="menu-item">Trending 🔥</div>
+    <nav>
+        <div class="logo"><span class="logo-icon">U</span> Ultravist Walls</div>
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">Gallery</a>
+            <a href="#">Credits</a>
+            <a href="#" style="color:var(--lime)">✨ AI Generate</a>
         </div>
-        <div class="side-box">
-            <h3>LIVE STATS</h3>
-            <div class="menu-item">Subscribers <span id="subs" style="color:var(--gold)">2.405</span></div>
-            <div class="menu-item">Online <span style="color:green">● 142</span></div>
+        <div>
+            <span style="margin-right:20px; color:#888; cursor:pointer;">Login</span>
+            <button class="btn-signup">Sign Up</button>
         </div>
-    </aside>
+    </nav>
 
-    <main>
-        <div class="search-area">
-            <input type="text" id="prompt" placeholder="Beschrijf je AI droom...">
-            <button class="btn-gen" onclick="alert('Neural Engine start render...')">GENEREER</button>
+    <section class="hero">
+        <span class="badge">✨ Premium Live Wallpapers</span>
+        <h1>Transform Your <span>Phone</span></h1>
+        <p>Discover stunning live wallpapers that bring your screen to life. Premium quality, instant downloads.</p>
+        <div style="margin-top:30px;">
+            <button class="btn-signup" style="padding:15px 40px; font-size:1rem;">BROWSE GALLERY →</button>
+            <button style="background:transparent; color:white; border:1px solid #333; padding:15px 40px; border-radius:20px; margin-left:15px; cursor:pointer;">GET 5 FREE CREDITS</button>
         </div>
+    </section>
 
-        <div class="grid">
-            <div class="card" onclick="openP('Neon Genesis', 'https://images.unsplash.com/photo-1614850523296-d8c1af93d400?q=80&w=2000')">
-                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1614850523296-d8c1af93d400?q=80&w=800')"></div>
-                <div class="card-info"><strong>Neon Genesis</strong></div>
+    <div class="gallery-header">
+        <div>
+            <h2 style="font-size:2.5rem; margin-bottom:10px;">Wallpaper Gallery</h2>
+            <div class="filters">
+                <div class="filter active">All</div>
+                <div class="filter">Abstract Neon</div>
+                <div class="filter">Cyberpunk</div>
+                <div class="filter">Minimal</div>
             </div>
-            <div class="card" onclick="openP('Golden Fluid', 'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2000')">
-                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=800')"></div>
-                <div class="card-info"><strong>Golden Fluid</strong></div>
+        </div>
+    </div>
+
+    <div class="grid">
+        <div class="card">
+            <div class="live-badge">▶ LIVE</div>
+            <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1614850523296-d8c1af93d400?w=800');"></div>
+            <div class="card-info">
+                <strong>Wall-E Wonder</strong><br>
+                <small style="color:#666;">Cyberpunk • 🪙 5 credits</small>
             </div>
         </div>
-    </main>
-</div>
-
-<div id="modal" onclick="this.style.display='none'">
-    <img id="mImg" src="">
-    <a id="dl" href="" target="_blank" class="btn-dl">DOWNLOAD 8K RAW</a>
-</div>
-
-<script>
-    function openP(title, url) {
-        document.getElementById('mImg').src = url;
-        document.getElementById('dl').href = url;
-        document.getElementById('modal').style.display = 'flex';
-    }
-    // Live counter simulatie
-    setInterval(() => {
-        let s = document.getElementById('subs');
-        s.innerText = (parseInt(s.innerText.replace('.','')) + 1).toLocaleString();
-    }, 5000);
-</script>
+        <div class="card">
+            <div class="live-badge">▶ LIVE</div>
+            <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=800');"></div>
+            <div class="card-info">
+                <strong>Cosmic Koi</strong><br>
+                <small style="color:#666;">Minimal • 🪙 5 credits</small>
+            </div>
+        </div>
+    </div>
 
 </body>
 </html>

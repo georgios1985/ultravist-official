@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 export default function HomePage() {
   return (
     <div className="md:pl-64 min-h-screen bg-[#050505] text-white">
-      {/* Hero Section */}
       <section className="relative pt-32 pb-20 px-8 flex flex-col items-center text-center overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,_rgba(209,255,26,0.1)_0%,_transparent_70%)] pointer-events-none" />
         
@@ -32,12 +31,10 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Featured Wallpapers */}
       <section className="px-8 pb-32">
         <div className="flex justify-between items-end mb-12">
           <div>
-            <h2 className="text-4xl font-bold mb-2 tracking-tight">Featured Wallpapers</h2>
-            <p className="text-gray-500 font-medium text-lg">Hand-picked favorites from our collection</p>
+            <h2 className="text-4xl font-bold mb-2 tracking-tight text-white">Featured Wallpapers</h2>
           </div>
           <Link to="/gallery" className="text-gray-400 hover:text-white flex items-center gap-2 font-bold group">
             View All <i className="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>

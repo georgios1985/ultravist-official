@@ -31,39 +31,18 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Featured Grid */}
       <section className="px-8 pb-32">
-        <div className="flex justify-between items-end mb-12">
-          <div>
-            <h2 className="text-4xl font-bold mb-2 tracking-tight text-white">Featured Wallpapers</h2>
-          </div>
-          <Link to="/gallery" className="text-gray-400 hover:text-white flex items-center gap-2 font-bold group">
-            View All <i className="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
-          </Link>
-        </div>
-
+        <h2 className="text-4xl font-bold mb-12 tracking-tight text-white">Featured Wallpapers</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <WallpaperCard title="Palm Breeze" img="https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?w=600" live />
-          <WallpaperCard title="Neon Fluid" img="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=600" />
-          <WallpaperCard title="Goldfish Zen" img="https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?w=600" live />
-          <WallpaperCard title="Cosmic Kitten" img="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=600" />
+          <div className="aspect-[3/4] rounded-[2.5rem] overflow-hidden bg-card border border-border">
+             <img src="https://images.unsplash.com/photo-1614850523296-d8c1af93d400?w=600" className="w-full h-full object-cover" />
+          </div>
+          <div className="aspect-[3/4] rounded-[2.5rem] overflow-hidden bg-card border border-border">
+             <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=600" className="w-full h-full object-cover" />
+          </div>
         </div>
       </section>
-    </div>
-  );
-}
-
-function WallpaperCard({ title, img, live }) {
-  return (
-    <div className="group relative aspect-[3/4] rounded-[2.5rem] overflow-hidden bg-[#0a0a0a] border border-[#1f1f1f] hover:border-[#d1ff1a]/50 transition-all cursor-pointer">
-      <img src={img} alt={title} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700" />
-      {live && (
-        <div className="absolute top-6 left-6 bg-[#d1ff1a] text-black text-[10px] font-black px-3 py-1.5 rounded-full flex items-center gap-1.5">
-          <div className="w-1 h-1 bg-black rounded-full animate-pulse"></div> LIVE
-        </div>
-      )}
-      <div className="absolute bottom-0 w-full p-8 bg-gradient-to-t from-black to-transparent">
-        <h3 className="text-xl font-bold text-white">{title}</h3>
-      </div>
     </div>
   );
 }

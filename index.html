@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lumina | Full Platform</title>
+    <title>ULTRAVIST | Admin Engine</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -21,209 +21,164 @@
     </script>
 
     <style>
+        /* FIX: Noise laag staat nu ACHTER de content (z-index -1) */
         .noise-bg::before {
             content: ""; position: fixed; inset: 0;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-            opacity: 0.04; pointer-events: none; z-index: 50;
+            opacity: 0.04; pointer-events: none; z-index: -1;
         }
+        
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .fade-in { animation: fadeIn 0.3s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Actieve Navigatie Styling */
+        /* Navigatie Styling */
         .nav-btn.active { background: #151515; color: white; border-left: 3px solid #d1ff1a; }
         .nav-btn.active i { color: #d1ff1a; }
+
+        /* Inputs */
+        .input-dark { background: #000; border: 1px solid #1f1f1f; color: white; padding: 12px; border-radius: 8px; width: 100%; outline: none; }
+        .input-dark:focus { border-color: #d1ff1a; }
     </style>
 </head>
 <body class="bg-bg text-white font-sans h-screen flex overflow-hidden noise-bg">
 
-    <aside class="w-72 bg-black border-r border-border flex flex-col p-6 z-20">
-        <div class="flex items-center gap-3 mb-10 pl-2">
-            <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-black font-bold font-heading text-xl">L</div>
-            <span class="font-heading font-bold text-2xl tracking-tight">Lumina</span>
+    <aside class="w-72 bg-black border-r border-border flex flex-col p-6 z-50 relative">
+        <div class="flex items-center gap-3 mb-10 pl-2 cursor-pointer" onclick="router('home')">
+            <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-black font-bold font-heading text-xl">U</div>
+            <span class="font-heading font-bold text-2xl tracking-tight text-white">ULTRAVIST</span>
         </div>
 
         <nav class="flex-1 space-y-1">
-            <div class="text-xs font-bold text-gray-600 tracking-widest mb-4 px-2">DISCOVER</div>
-            <button onclick="router('home')" id="btn-home" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-r-xl text-text hover:bg-[#111] transition-all"><i class="fa-solid fa-layer-group"></i> Gallery</button>
-            <button onclick="router('saved')" id="btn-saved" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-r-xl text-text hover:bg-[#111] transition-all"><i class="fa-solid fa-heart"></i> Saved</button>
+            <div class="text-xs font-bold text-gray-600 tracking-widest mb-4 px-2">MENU</div>
+            <button onclick="router('home')" id="btn-home" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-r-xl text-text hover:bg-[#111] hover:text-white transition-all"><i class="fa-solid fa-images"></i> Gallery</button>
+            <button onclick="router('upload')" id="btn-upload" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-r-xl text-text hover:bg-[#111] hover:text-white transition-all"><i class="fa-solid fa-cloud-arrow-up"></i> Upload</button>
             
-            <div class="text-xs font-bold text-gray-600 tracking-widest mt-8 mb-4 px-2">CREATE</div>
-            <button onclick="router('generate')" id="btn-generate" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-r-xl text-text hover:bg-[#111] transition-all"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Studio</button>
-            
-            <div class="text-xs font-bold text-gray-600 tracking-widest mt-8 mb-4 px-2">ACCOUNT</div>
-            <button onclick="router('dashboard')" id="btn-dashboard" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-r-xl text-text hover:bg-[#111] transition-all"><i class="fa-solid fa-chart-pie"></i> Dashboard</button>
-            <button onclick="router('upgrade')" id="btn-upgrade" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-r-xl text-text hover:bg-[#111] transition-all"><i class="fa-solid fa-crown"></i> Membership</button>
-            <button onclick="router('settings')" id="btn-settings" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-r-xl text-text hover:bg-[#111] transition-all"><i class="fa-solid fa-gear"></i> Settings</button>
+            <div class="text-xs font-bold text-gray-600 tracking-widest mt-8 mb-4 px-2">ADMIN</div>
+            <button onclick="router('dashboard')" id="btn-dashboard" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-r-xl text-text hover:bg-[#111] hover:text-white transition-all"><i class="fa-solid fa-chart-line"></i> Dashboard</button>
+            <button onclick="router('settings')" id="btn-settings" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-r-xl text-text hover:bg-[#111] hover:text-white transition-all"><i class="fa-solid fa-cog"></i> Settings</button>
         </nav>
 
-        <div class="mt-auto border-t border-border pt-6 flex items-center gap-3 px-2">
-            <img src="https://ui-avatars.com/api/?name=Georgios&background=d1ff1a&color=000" class="w-10 h-10 rounded-full">
+        <div class="mt-auto pt-6 border-t border-border flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-primary font-bold">G</div>
             <div>
                 <div class="text-sm font-bold">Georgios</div>
-                <div class="text-xs text-primary">Pro Plan</div>
+                <div class="text-xs text-primary">Admin Access</div>
             </div>
         </div>
     </aside>
 
-    <main class="flex-1 flex flex-col relative">
-        <header class="h-20 border-b border-border flex items-center justify-between px-8 bg-bg/90 backdrop-blur sticky top-0 z-10">
+    <main class="flex-1 flex flex-col relative z-10">
+        
+        <header class="h-20 border-b border-border flex items-center justify-between px-8 bg-bg/95 backdrop-blur sticky top-0 z-40">
             <h2 id="page-title" class="font-heading text-xl font-bold">Explore Gallery</h2>
             <div class="flex items-center gap-4">
-                <div class="px-4 py-2 bg-[#111] border border-border rounded-full flex items-center gap-3">
-                    <span class="text-primary font-bold">9,963</span>
-                    <span class="text-xs text-gray-500">CREDITS</span>
-                </div>
-                <button onclick="router('upgrade')" class="bg-primary text-black font-bold px-5 py-2 rounded-lg text-sm hover:shadow-[0_0_15px_rgba(209,255,26,0.4)] transition-all">Top Up</button>
+                <button onclick="router('upload')" class="bg-primary text-black font-bold px-5 py-2 rounded-lg text-sm hover:shadow-[0_0_15px_rgba(209,255,26,0.4)] transition-all flex items-center gap-2">
+                    <i class="fa-solid fa-plus"></i> Upload New
+                </button>
             </div>
         </header>
 
         <div id="content" class="flex-1 overflow-y-auto p-8 scrollbar-hide">
 
             <div id="page-home" class="page-section fade-in">
-                <div class="h-[300px] rounded-3xl bg-gradient-to-r from-gray-900 to-black border border-border p-10 flex items-center justify-between mb-10 relative overflow-hidden">
-                    <div class="relative z-10">
-                        <span class="bg-primary text-black text-xs font-bold px-3 py-1 rounded mb-4 inline-block">NEW FEATURE</span>
-                        <h1 class="font-heading text-5xl font-bold mb-4">Dream in <span class="text-primary">8K</span></h1>
-                        <p class="text-gray-400 max-w-md">The world's most advanced AI wallpaper engine is now live. Start creating today.</p>
-                        <button onclick="router('generate')" class="mt-6 bg-white text-black px-6 py-3 rounded-xl font-bold hover:bg-gray-200">Start Creating</button>
-                    </div>
-                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800" class="absolute right-0 top-0 h-full w-1/2 object-cover opacity-50 mask-image-linear">
-                </div>
-                
-                <h3 class="font-heading text-2xl font-bold mb-6">Trending Now</h3>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="h-[400px] bg-card rounded-2xl border border-border overflow-hidden relative group cursor-pointer">
-                        <img src="https://images.unsplash.com/photo-1614850523296-d8c1af93d400?w=600" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500">
+                    <div class="h-[400px] bg-card rounded-2xl border border-border overflow-hidden relative group cursor-pointer hover:border-primary transition-all">
+                        <img src="https://images.unsplash.com/photo-1614850523296-d8c1af93d400?w=600" class="w-full h-full object-cover">
                         <div class="absolute bottom-0 w-full p-6 bg-gradient-to-t from-black to-transparent">
                             <div class="font-bold text-lg">Neon City</div>
-                            <div class="text-primary text-xs">5 Credits</div>
+                            <div class="text-primary text-xs">8K • Live</div>
                         </div>
                     </div>
-                    <div class="h-[400px] bg-card rounded-2xl border border-border overflow-hidden relative group cursor-pointer">
-                        <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=600" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500">
+                    <div class="h-[400px] bg-card rounded-2xl border border-border overflow-hidden relative group cursor-pointer hover:border-primary transition-all">
+                        <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=600" class="w-full h-full object-cover">
                         <div class="absolute bottom-0 w-full p-6 bg-gradient-to-t from-black to-transparent">
                             <div class="font-bold text-lg">Liquid Gold</div>
-                            <div class="text-primary text-xs">5 Credits</div>
-                        </div>
-                    </div>
-                    <div class="h-[400px] bg-card rounded-2xl border border-border overflow-hidden relative group cursor-pointer">
-                        <img src="https://images.unsplash.com/photo-1604871000636-074fa5117945?w=600" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500">
-                        <div class="absolute bottom-0 w-full p-6 bg-gradient-to-t from-black to-transparent">
-                            <div class="font-bold text-lg">Cyber Samurai</div>
-                            <div class="text-primary text-xs">5 Credits</div>
+                            <div class="text-primary text-xs">8K • Abstract</div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div id="page-generate" class="page-section hidden fade-in">
-                <div class="max-w-3xl mx-auto">
-                    <div class="bg-card border border-border rounded-2xl p-1">
-                        <textarea class="w-full bg-black text-white p-6 rounded-xl outline-none text-lg resize-none h-40" placeholder="Describe your dream wallpaper (e.g., 'A futuristic city made of glass and gold, cinematic lighting, 8k resolution')..."></textarea>
-                        <div class="p-4 flex items-center justify-between border-t border-border bg-[#111] rounded-b-xl">
-                            <div class="flex gap-2">
-                                <button class="px-3 py-1 rounded bg-black border border-border text-xs text-gray-400 hover:text-white">Style: Cyberpunk</button>
-                                <button class="px-3 py-1 rounded bg-black border border-border text-xs text-gray-400 hover:text-white">Ratio: 9:16</button>
-                            </div>
-                            <button onclick="alert('Generating... (This consumes 10 Credits)')" class="bg-primary text-black font-bold px-6 py-2 rounded-lg hover:shadow-[0_0_20px_rgba(209,255,26,0.3)]">Generate</button>
-                        </div>
-                    </div>
+            <div id="page-upload" class="page-section hidden fade-in">
+                <div class="max-w-2xl mx-auto bg-card border border-border p-8 rounded-2xl">
+                    <h1 class="font-heading text-3xl font-bold mb-6">Upload Wallpaper</h1>
                     
-                    <div class="mt-10">
-                        <h3 class="font-heading text-xl font-bold mb-4">Recent Creations</h3>
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                            <div class="aspect-[9/16] bg-gray-900 rounded-xl border border-border flex items-center justify-center text-gray-600">No history yet</div>
-                            <div class="aspect-[9/16] bg-gray-900 rounded-xl border border-border flex items-center justify-center text-gray-600">No history yet</div>
+                    <div class="border-2 border-dashed border-gray-700 rounded-xl p-10 text-center mb-8 hover:border-primary hover:bg-[#111] transition-all cursor-pointer">
+                        <i class="fa-solid fa-cloud-arrow-up text-4xl text-gray-500 mb-4"></i>
+                        <h3 class="font-bold text-lg">Drag & Drop Video or Image</h3>
+                        <p class="text-gray-500 text-sm">Supports JPG, PNG, MP4 (Max 8K)</p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 mb-2 uppercase">File Name</label>
+                            <div class="flex gap-2">
+                                <input type="text" id="ai-title-input" placeholder="e.g. Cyberpunk City Night" class="input-dark">
+                                <button onclick="generateAIName()" class="bg-[#1a1a1a] border border-border text-primary px-4 rounded-lg font-bold hover:bg-[#222] whitespace-nowrap flex items-center gap-2">
+                                    <i class="fa-solid fa-wand-magic-sparkles"></i> AI Auto-Name
+                                </button>
+                            </div>
                         </div>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-gray-500 mb-2 uppercase">Category</label>
+                                <select class="input-dark">
+                                    <option>Abstract</option>
+                                    <option>Nature</option>
+                                    <option>Cyberpunk</option>
+                                    <option>Space</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-gray-500 mb-2 uppercase">Price (Credits)</label>
+                                <input type="number" value="5" class="input-dark">
+                            </div>
+                        </div>
+
+                        <button onclick="alert('Upload successful!')" class="w-full bg-primary text-black font-bold py-4 rounded-xl mt-4 hover:shadow-[0_0_20px_rgba(209,255,26,0.3)] transition-all">
+                            Publish to Gallery
+                        </button>
                     </div>
                 </div>
             </div>
 
             <div id="page-dashboard" class="page-section hidden fade-in">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <h1 class="font-heading text-3xl font-bold mb-6">Admin Overview</h1>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
                     <div class="bg-card border border-border p-6 rounded-2xl">
-                        <div class="text-gray-500 text-xs font-bold uppercase mb-2">Total Earnings</div>
-                        <div class="text-4xl font-heading font-bold">€ 14,250</div>
-                        <div class="text-primary text-sm mt-2">+12% this week</div>
-                    </div>
-                    <div class="bg-card border border-border p-6 rounded-2xl">
-                        <div class="text-gray-500 text-xs font-bold uppercase mb-2">Subscribers</div>
-                        <div class="text-4xl font-heading font-bold">2,405</div>
-                        <div class="text-green-500 text-sm mt-2 flex items-center gap-2"><span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span> Online</div>
+                        <div class="text-gray-500 text-xs font-bold uppercase">Users</div>
+                        <div class="text-3xl font-heading font-bold mt-2">6</div>
                     </div>
                     <div class="bg-card border border-border p-6 rounded-2xl">
-                        <div class="text-gray-500 text-xs font-bold uppercase mb-2">Total Renders</div>
-                        <div class="text-4xl font-heading font-bold">84,392</div>
-                        <div class="text-gray-500 text-sm mt-2">All time</div>
+                        <div class="text-gray-500 text-xs font-bold uppercase">Wallpapers</div>
+                        <div class="text-3xl font-heading font-bold mt-2">22</div>
                     </div>
-                </div>
-            </div>
-
-            <div id="page-upgrade" class="page-section hidden fade-in">
-                <div class="text-center mb-10">
-                    <h1 class="font-heading text-4xl font-bold mb-2">Upgrade your <span class="text-primary">Vision</span></h1>
-                    <p class="text-gray-400">Choose a plan to get more credits and features.</p>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-                    <div class="bg-card border border-border p-8 rounded-2xl hover:border-gray-600 transition-all">
-                        <h3 class="font-bold text-xl mb-2">Starter</h3>
-                        <div class="text-3xl font-heading font-bold mb-4">€9<span class="text-sm text-gray-500">/mo</span></div>
-                        <ul class="space-y-3 text-sm text-gray-400 mb-8">
-                            <li>• 500 Credits</li>
-                            <li>• Standard Speed</li>
-                            <li>• Personal License</li>
-                        </ul>
-                        <button class="w-full py-3 border border-border rounded-xl font-bold hover:bg-white hover:text-black">Select</button>
+                    <div class="bg-card border border-border p-6 rounded-2xl">
+                        <div class="text-gray-500 text-xs font-bold uppercase">Purchases</div>
+                        <div class="text-3xl font-heading font-bold mt-2">10</div>
                     </div>
-                    <div class="bg-[#111] border border-primary p-8 rounded-2xl relative">
-                        <div class="absolute top-0 right-0 bg-primary text-black text-xs font-bold px-3 py-1 rounded-bl-xl">MOST POPULAR</div>
-                        <h3 class="font-bold text-xl mb-2 text-white">Pro Creator</h3>
-                        <div class="text-3xl font-heading font-bold mb-4 text-primary">€19<span class="text-sm text-gray-500">/mo</span></div>
-                        <ul class="space-y-3 text-sm text-gray-300 mb-8">
-                            <li>• 2000 Credits</li>
-                            <li>• Fast Generation</li>
-                            <li>• Commercial License</li>
-                            <li>• Priority Support</li>
-                        </ul>
-                        <button class="w-full py-3 bg-primary text-black rounded-xl font-bold hover:shadow-[0_0_20px_rgba(209,255,26,0.3)]">Upgrade Now</button>
+                    <div class="bg-card border border-primary/30 p-6 rounded-2xl relative overflow-hidden">
+                        <div class="text-primary text-xs font-bold uppercase">Earnings</div>
+                        <div class="text-3xl font-heading font-bold mt-2 text-primary">$0.00</div>
                     </div>
-                    <div class="bg-card border border-border p-8 rounded-2xl hover:border-gray-600 transition-all">
-                        <h3 class="font-bold text-xl mb-2">Agency</h3>
-                        <div class="text-3xl font-heading font-bold mb-4">€49<span class="text-sm text-gray-500">/mo</span></div>
-                        <ul class="space-y-3 text-sm text-gray-400 mb-8">
-                            <li>• Unlimited Credits</li>
-                            <li>• Instant Speed</li>
-                            <li>• API Access</li>
-                        </ul>
-                        <button class="w-full py-3 border border-border rounded-xl font-bold hover:bg-white hover:text-black">Select</button>
-                    </div>
-                </div>
-            </div>
-
-            <div id="page-saved" class="page-section hidden fade-in">
-                <div class="text-center py-20">
-                    <div class="w-20 h-20 bg-[#111] rounded-full flex items-center justify-center mx-auto mb-4 text-gray-600 text-3xl">
-                        <i class="fa-regular fa-heart"></i>
-                    </div>
-                    <h3 class="text-xl font-bold">No saved items yet</h3>
-                    <p class="text-gray-500">Go to the gallery to like some wallpapers.</p>
                 </div>
             </div>
 
             <div id="page-settings" class="page-section hidden fade-in">
                 <div class="max-w-xl bg-card border border-border p-8 rounded-2xl">
-                    <h3 class="font-bold text-xl mb-6">Profile Settings</h3>
+                    <h1 class="font-heading text-2xl font-bold mb-6">Profile Information</h1>
                     <div class="space-y-4">
                         <div>
-                            <label class="block text-xs font-bold text-gray-500 mb-2 uppercase">Display Name</label>
-                            <input type="text" value="Georgios" class="w-full bg-black border border-border text-white px-4 py-3 rounded-xl outline-none focus:border-primary">
+                            <label class="block text-xs font-bold text-gray-500 mb-2 uppercase">Name</label>
+                            <input type="text" value="Georgios" class="input-dark">
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-gray-500 mb-2 uppercase">Email</label>
-                            <input type="email" value="admin@ultravist.com" class="w-full bg-black border border-border text-white px-4 py-3 rounded-xl outline-none focus:border-primary">
+                            <input type="email" value="admin@ultravist.com" class="input-dark">
                         </div>
-                        <button class="bg-primary text-black font-bold px-6 py-3 rounded-xl mt-4">Save Changes</button>
+                        <button class="bg-primary text-black font-bold px-6 py-3 rounded-xl mt-2">Save Profile</button>
                     </div>
                 </div>
             </div>
@@ -232,31 +187,48 @@
     </main>
 
     <script>
+        // ROUTER: Zorgt dat knoppen werken
         function router(page) {
-            // 1. Hide all pages
+            // Verberg alle secties
             document.querySelectorAll('.page-section').forEach(el => el.classList.add('hidden'));
             
-            // 2. Show target page
-            document.getElementById('page-' + page).classList.remove('hidden');
-            
-            // 3. Update Title
+            // Toon de gekozen sectie
+            const target = document.getElementById('page-' + page);
+            if(target) target.classList.remove('hidden');
+
+            // Update Titels
             const titles = {
                 'home': 'Explore Gallery',
-                'generate': 'AI Studio',
-                'dashboard': 'Admin Dashboard',
-                'upgrade': 'Membership Plans',
-                'saved': 'Your Library',
-                'settings': 'Settings'
+                'upload': 'Upload Media',
+                'dashboard': 'Admin Overview',
+                'settings': 'Account Settings'
             };
             document.getElementById('page-title').innerText = titles[page];
 
-            // 4. Update Navigation Styling
+            // Update Menu Actieve Status
             document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
             const activeBtn = document.getElementById('btn-' + page);
             if(activeBtn) activeBtn.classList.add('active');
         }
 
-        // Init
+        // AI NAAM GENERATOR FUNCTIE
+        function generateAIName() {
+            const btn = event.currentTarget;
+            const originalText = btn.innerHTML;
+            const input = document.getElementById('ai-title-input');
+            
+            // Simulatie van laden
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Generating...';
+            
+            setTimeout(() => {
+                const names = ["Neon Cyber Horizon", "Abstract Golden Flow", "Midnight Tokyo Rain", "Deep Space Nebula 8K"];
+                const randomName = names[Math.floor(Math.random() * names.length)];
+                input.value = randomName;
+                btn.innerHTML = originalText;
+            }, 1000);
+        }
+
+        // Start op Gallery
         router('home');
     </script>
 </body>

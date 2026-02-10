@@ -1,8 +1,10 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useAuth } from "../contexts/AuthContext";
 
 export function Navbar() {
   const location = useLocation();
+  const { credits } = useAuth();
   const isActive = (path) => location.pathname === path;
 
   return (
@@ -24,6 +26,10 @@ export function Navbar() {
       </div>
 
       <div className="mt-auto pt-8 border-t border-[#1f1f1f]">
+        <div className="bg-[#111] border border-[#1f1f1f] rounded-lg p-3 mb-4 flex justify-between items-center">
+            <span className="text-[#d1ff1a] font-bold">{credits.toLocaleString()}</span>
+            <span className="text-[10px] text-gray-500 font-bold tracking-widest uppercase">Credits</span>
+        </div>
         <div className="flex items-center justify-between gap-4">
           <Link to="/login" className="text-sm font-bold text-gray-400 hover:text-white">Login</Link>
           <Link to="/register" className="bg-[#d1ff1a] text-black text-sm font-black px-6 py-2.5 rounded-full hover:scale-105 transition-all">Sign Up</Link>

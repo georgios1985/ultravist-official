@@ -1,64 +1,126 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ULTRAVIST | 8K AI Wallpapers</title>
+    <title>ULTRAVIST | 8K AI Wallpapers & Generative Art</title>
     <style>
-        body { margin: 0; background: #050505; color: white; font-family: 'Segoe UI', Roboto, sans-serif; }
-        nav { display: flex; justify-content: space-between; padding: 20px 5%; align-items: center; border-bottom: 1px solid #222; }
-        .logo { font-size: 1.5rem; font-weight: bold; letter-spacing: 3px; color: #d4af37; text-transform: uppercase; }
-        .badge { font-size: 0.6rem; background: #d4af37; color: black; padding: 2px 6px; border-radius: 3px; vertical-align: middle; margin-left: 5px; }
-        .btn-outline { background: transparent; border: 1px solid #d4af37; color: #d4af37; padding: 8px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; transition: 0.3s; }
-        .btn-outline:hover { background: #d4af37; color: black; }
+        :root { --gold: #d4af37; --dark: #050505; --card: #111; }
+        body { margin: 0; background: var(--dark); color: white; font-family: 'Segoe UI', sans-serif; overflow-x: hidden; }
         
-        .hero { text-align: center; padding: 100px 20px; background: radial-gradient(circle at center, #1a1a1a 0%, #050505 100%); }
-        h1 { font-size: 3.5rem; margin: 0; font-weight: 800; letter-spacing: -1px; }
-        h1 span { color: #d4af37; }
-        .subtitle { color: #888; font-size: 1.2rem; margin-top: 10px; }
-        
-        .search-container { margin-top: 40px; display: flex; justify-content: center; }
-        .search-bar { display: flex; background: #111; padding: 5px; border-radius: 50px; border: 1px solid #333; width: 100%; max-width: 500px; }
-        input { background: transparent; border: none; color: white; padding: 10px 20px; flex: 1; outline: none; font-size: 1rem; }
-        .btn-gen { background: #d4af37; border: none; padding: 10px 25px; border-radius: 50px; font-weight: bold; cursor: pointer; color: black; }
+        /* Navigatie */
+        nav { display: flex; justify-content: space-between; padding: 20px 5%; align-items: center; border-bottom: 1px solid #222; background: rgba(5,5,5,0.9); position: sticky; top: 0; z-index: 100; }
+        .logo { font-size: 1.8rem; font-weight: bold; letter-spacing: 4px; color: var(--gold); text-transform: uppercase; }
+        .nav-links span { margin-left: 25px; color: #888; cursor: pointer; font-size: 0.9rem; transition: 0.3s; }
+        .nav-links span:hover { color: var(--gold); }
+        .btn-premium { background: var(--gold); border: none; padding: 10px 20px; border-radius: 5px; font-weight: bold; cursor: pointer; margin-left: 20px; }
 
-        .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; padding: 50px 5%; }
-        .wall-card { background: #111; height: 400px; border-radius: 20px; border: 1px solid #222; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; transition: 0.4s; }
-        .wall-card:hover { border-color: #d4af37; transform: translateY(-5px); }
-        .placeholder-text { color: #333; font-weight: bold; font-size: 1.5rem; text-transform: uppercase; letter-spacing: 2px; }
+        /* Hero Sectie */
+        .hero { text-align: center; padding: 120px 20px; background: radial-gradient(circle at center, #1a1a1a 0%, #050505 100%); }
+        h1 { font-size: 4rem; margin: 0; font-weight: 900; }
+        h1 span { color: var(--gold); }
+        .subtitle { color: #888; font-size: 1.3rem; margin-top: 15px; max-width: 600px; margin-left: auto; margin-right: auto; }
+
+        /* Zoek & Genereer Functie */
+        .search-area { margin-top: 50px; display: flex; flex-direction: column; align-items: center; }
+        .search-bar { display: flex; background: #111; padding: 8px; border-radius: 50px; border: 1px solid #333; width: 100%; max-width: 600px; box-shadow: 0 0 20px rgba(212,175,55,0.1); }
+        input { background: transparent; border: none; color: white; padding: 12px 25px; flex: 1; outline: none; font-size: 1.1rem; }
+        .btn-generate { background: var(--gold); border: none; padding: 12px 35px; border-radius: 50px; font-weight: bold; cursor: pointer; color: black; font-size: 1rem; transition: 0.3s; }
+        .btn-generate:hover { transform: scale(1.05); box-shadow: 0 0 15px var(--gold); }
+
+        /* Opties zoals gisteren */
+        .options-bar { margin-top: 20px; display: flex; gap: 15px; color: #666; font-size: 0.8rem; }
+        .option { cursor: pointer; padding: 5px 12px; border: 1px solid #222; border-radius: 20px; transition: 0.3s; }
+        .option:hover { border-color: var(--gold); color: var(--gold); }
+
+        /* Galerij Grid */
+        .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; padding: 60px 5%; }
+        .wall-card { background: var(--card); border-radius: 20px; border: 1px solid #222; overflow: hidden; position: relative; transition: 0.4s; cursor: pointer; }
+        .wall-card:hover { border-color: var(--gold); transform: translateY(-10px); }
+        .wall-img { width: 100%; height: 400px; background-size: cover; background-position: center; display: flex; align-items: flex-end; }
+        .wall-info { background: linear-gradient(transparent, rgba(0,0,0,0.9)); padding: 20px; width: 100%; }
+        .wall-title { font-weight: bold; font-size: 1.1rem; margin-bottom: 5px; }
+        .wall-tags { color: var(--gold); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* Footer */
+        footer { text-align: center; padding: 60px; color: #444; border-top: 1px solid #111; margin-top: 50px; }
     </style>
 </head>
 <body>
 
     <nav>
-        <div class="logo">Ultravist <span class="badge">8K</span></div>
-        <div>
-            <span style="margin-right: 20px; color: #888; cursor: pointer;">Showcase</span>
-            <button class="btn-outline">Join Club</button>
+        <div class="logo">Ultravist</div>
+        <div class="nav-links">
+            <span>Explore</span>
+            <span>8K Live</span>
+            <span>Artists</span>
+            <button class="btn-premium">UPGRADE TO PRO</button>
         </div>
     </nav>
 
     <section class="hero">
-        <h1>Elevate Your <span>Vision</span></h1>
-        <p class="subtitle">Premium AI-Generated Masterpieces for your Digital Canvas.</p>
+        <h1>UNLIMITED <span>8K</span> VISION</h1>
+        <p class="subtitle">De meest geavanceerde AI wallpaper engine ter wereld. Creëer, ontdek en download in ultra-resolutie.</p>
         
-        <div class="search-container">
+        <div class="search-area">
             <div class="search-bar">
-                <input type="text" placeholder="Describe the impossible...">
-                <button class="btn-gen">Generate</button>
+                <input type="text" id="prompt" placeholder="Beschrijf je droom wallpaper (bijv: 'Gouden stad in de wolken, 8K, cinematic')...">
+                <button class="btn-generate" onclick="generateAI()">GENERATE</button>
+            </div>
+            <div class="options-bar">
+                <span class="option">Aspect Ratio: 16:9</span>
+                <span class="option">Style: Photorealistic</span>
+                <span class="option">Quality: Ultra HD</span>
             </div>
         </div>
     </section>
 
     <div class="gallery">
-        <div class="wall-card"><span class="placeholder-text">Neural Render A1</span></div>
-        <div class="wall-card"><span class="placeholder-text">Neural Render A2</span></div>
-        <div class="wall-card"><span class="placeholder-text">Neural Render A3</span></div>
+        <div class="wall-card" onclick="viewImage('Neon Cyberpunk City')">
+            <div class="wall-img" style="background-image: url('https://images.unsplash.com/photo-1614850523296-d8c1af93d400?auto=format&fit=crop&q=80&w=800');">
+                <div class="wall-info">
+                    <div class="wall-tags">PREMIUM • 8K • NEON</div>
+                    <div class="wall-title">Cyberpunk Metropolis</div>
+                </div>
+            </div>
+        </div>
+        <div class="wall-card" onclick="viewImage('Golden Abstract Art')">
+            <div class="wall-img" style="background-image: url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&q=80&w=800');">
+                <div class="wall-info">
+                    <div class="wall-tags">EXCLUSIVE • LIQUID • GOLD</div>
+                    <div class="wall-title">Golden Fluidity</div>
+                </div>
+            </div>
+        </div>
+        <div class="wall-card" onclick="viewImage('Deep Space Nebula')">
+            <div class="wall-img" style="background-image: url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&q=80&w=800');">
+                <div class="wall-info">
+                    <div class="wall-tags">8K • GALAXY • SPACE</div>
+                    <div class="wall-title">Deep Space Horizon</div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <footer style="text-align: center; padding: 40px; color: #444; border-top: 1px solid #111;">
-        &copy; 2026 ULTRAVIST AI PRO. All rights reserved.
+    <footer>
+        &copy; 2026 ULTRAVIST OFFICIAL - AI ENGINE V4.2 <br>
+        <small style="margin-top: 10px; display: block;">Powered by Neural Render Technology</small>
     </footer>
+
+    <script>
+        function generateAI() {
+            const prompt = document.getElementById('prompt').value;
+            if(prompt) {
+                alert('ULTRAVIST Neural Engine start met genereren...\n\nPrompt: ' + prompt + '\nStatus: Rendering in 8K...');
+            } else {
+                alert('Voer eerst een beschrijving in om een AI-meesterwerk te maken!');
+            }
+        }
+
+        function viewImage(title) {
+            alert('Preview openen voor: ' + title + '\nResolutie: 7680 x 4320 (8K)\nBestandstype: .PNG (Lossless)');
+        }
+    </script>
 
 </body>
 </html>

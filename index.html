@@ -1,126 +1,31 @@
-<!DOCTYPE html>
-<html lang="nl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ULTRAVIST | 8K AI Wallpapers & Generative Art</title>
-    <style>
-        :root { --gold: #d4af37; --dark: #050505; --card: #111; }
-        body { margin: 0; background: var(--dark); color: white; font-family: 'Segoe UI', sans-serif; overflow-x: hidden; }
+<script>
+    function generateAI() {
+        const prompt = document.getElementById('prompt').value;
+        const btn = document.querySelector('.btn-generate');
         
-        /* Navigatie */
-        nav { display: flex; justify-content: space-between; padding: 20px 5%; align-items: center; border-bottom: 1px solid #222; background: rgba(5,5,5,0.9); position: sticky; top: 0; z-index: 100; }
-        .logo { font-size: 1.8rem; font-weight: bold; letter-spacing: 4px; color: var(--gold); text-transform: uppercase; }
-        .nav-links span { margin-left: 25px; color: #888; cursor: pointer; font-size: 0.9rem; transition: 0.3s; }
-        .nav-links span:hover { color: var(--gold); }
-        .btn-premium { background: var(--gold); border: none; padding: 10px 20px; border-radius: 5px; font-weight: bold; cursor: pointer; margin-left: 20px; }
-
-        /* Hero Sectie */
-        .hero { text-align: center; padding: 120px 20px; background: radial-gradient(circle at center, #1a1a1a 0%, #050505 100%); }
-        h1 { font-size: 4rem; margin: 0; font-weight: 900; }
-        h1 span { color: var(--gold); }
-        .subtitle { color: #888; font-size: 1.3rem; margin-top: 15px; max-width: 600px; margin-left: auto; margin-right: auto; }
-
-        /* Zoek & Genereer Functie */
-        .search-area { margin-top: 50px; display: flex; flex-direction: column; align-items: center; }
-        .search-bar { display: flex; background: #111; padding: 8px; border-radius: 50px; border: 1px solid #333; width: 100%; max-width: 600px; box-shadow: 0 0 20px rgba(212,175,55,0.1); }
-        input { background: transparent; border: none; color: white; padding: 12px 25px; flex: 1; outline: none; font-size: 1.1rem; }
-        .btn-generate { background: var(--gold); border: none; padding: 12px 35px; border-radius: 50px; font-weight: bold; cursor: pointer; color: black; font-size: 1rem; transition: 0.3s; }
-        .btn-generate:hover { transform: scale(1.05); box-shadow: 0 0 15px var(--gold); }
-
-        /* Opties zoals gisteren */
-        .options-bar { margin-top: 20px; display: flex; gap: 15px; color: #666; font-size: 0.8rem; }
-        .option { cursor: pointer; padding: 5px 12px; border: 1px solid #222; border-radius: 20px; transition: 0.3s; }
-        .option:hover { border-color: var(--gold); color: var(--gold); }
-
-        /* Galerij Grid */
-        .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; padding: 60px 5%; }
-        .wall-card { background: var(--card); border-radius: 20px; border: 1px solid #222; overflow: hidden; position: relative; transition: 0.4s; cursor: pointer; }
-        .wall-card:hover { border-color: var(--gold); transform: translateY(-10px); }
-        .wall-img { width: 100%; height: 400px; background-size: cover; background-position: center; display: flex; align-items: flex-end; }
-        .wall-info { background: linear-gradient(transparent, rgba(0,0,0,0.9)); padding: 20px; width: 100%; }
-        .wall-title { font-weight: bold; font-size: 1.1rem; margin-bottom: 5px; }
-        .wall-tags { color: var(--gold); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; }
-
-        /* Footer */
-        footer { text-align: center; padding: 60px; color: #444; border-top: 1px solid #111; margin-top: 50px; }
-    </style>
-</head>
-<body>
-
-    <nav>
-        <div class="logo">Ultravist</div>
-        <div class="nav-links">
-            <span>Explore</span>
-            <span>8K Live</span>
-            <span>Artists</span>
-            <button class="btn-premium">UPGRADE TO PRO</button>
-        </div>
-    </nav>
-
-    <section class="hero">
-        <h1>UNLIMITED <span>8K</span> VISION</h1>
-        <p class="subtitle">De meest geavanceerde AI wallpaper engine ter wereld. Creëer, ontdek en download in ultra-resolutie.</p>
-        
-        <div class="search-area">
-            <div class="search-bar">
-                <input type="text" id="prompt" placeholder="Beschrijf je droom wallpaper (bijv: 'Gouden stad in de wolken, 8K, cinematic')...">
-                <button class="btn-generate" onclick="generateAI()">GENERATE</button>
-            </div>
-            <div class="options-bar">
-                <span class="option">Aspect Ratio: 16:9</span>
-                <span class="option">Style: Photorealistic</span>
-                <span class="option">Quality: Ultra HD</span>
-            </div>
-        </div>
-    </section>
-
-    <div class="gallery">
-        <div class="wall-card" onclick="viewImage('Neon Cyberpunk City')">
-            <div class="wall-img" style="background-image: url('https://images.unsplash.com/photo-1614850523296-d8c1af93d400?auto=format&fit=crop&q=80&w=800');">
-                <div class="wall-info">
-                    <div class="wall-tags">PREMIUM • 8K • NEON</div>
-                    <div class="wall-title">Cyberpunk Metropolis</div>
-                </div>
-            </div>
-        </div>
-        <div class="wall-card" onclick="viewImage('Golden Abstract Art')">
-            <div class="wall-img" style="background-image: url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&q=80&w=800');">
-                <div class="wall-info">
-                    <div class="wall-tags">EXCLUSIVE • LIQUID • GOLD</div>
-                    <div class="wall-title">Golden Fluidity</div>
-                </div>
-            </div>
-        </div>
-        <div class="wall-card" onclick="viewImage('Deep Space Nebula')">
-            <div class="wall-img" style="background-image: url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&q=80&w=800');">
-                <div class="wall-info">
-                    <div class="wall-tags">8K • GALAXY • SPACE</div>
-                    <div class="wall-title">Deep Space Horizon</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <footer>
-        &copy; 2026 ULTRAVIST OFFICIAL - AI ENGINE V4.2 <br>
-        <small style="margin-top: 10px; display: block;">Powered by Neural Render Technology</small>
-    </footer>
-
-    <script>
-        function generateAI() {
-            const prompt = document.getElementById('prompt').value;
-            if(prompt) {
-                alert('ULTRAVIST Neural Engine start met genereren...\n\nPrompt: ' + prompt + '\nStatus: Rendering in 8K...');
-            } else {
-                alert('Voer eerst een beschrijving in om een AI-meesterwerk te maken!');
-            }
+        if(prompt) {
+            // Verander de tekst op de knop in plaats van een witte pop-up
+            btn.innerHTML = "GENERATING...";
+            btn.style.opacity = "0.7";
+            
+            // Simuleer een laadtijd van 3 seconden
+            setTimeout(() => {
+                btn.innerHTML = "GENERATE";
+                btn.style.opacity = "1";
+                console.log("AI Image generated for: " + prompt);
+                // Hier kunnen we later de code toevoegen die echt een plaatje tevoorschijn tovert
+            }, 3000);
+        } else {
+            document.getElementById('prompt').placeholder = "VOER EERST EEN BESCHRIJVING IN!";
+            setTimeout(() => {
+                document.getElementById('prompt').placeholder = "Beschrijf je droom wallpaper...";
+            }, 2000);
         }
+    }
 
-        function viewImage(title) {
-            alert('Preview openen voor: ' + title + '\nResolutie: 7680 x 4320 (8K)\nBestandstype: .PNG (Lossless)');
-        }
-    </script>
-
-</body>
-</html>
+    function viewImage(title) {
+        // In plaats van een witte pop-up, maken we de kaart een beetje lichter als je erop klikt
+        console.log("Viewing: " + title);
+        // We kunnen hier later een 'Full Screen' weergave van maken
+    }
+</script>

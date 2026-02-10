@@ -3,129 +3,188 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ULTRAVIST | 8K AI Engine & Admin</title>
+    <title>ULTRAVIST | Professional 8K AI Wallpapers</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;700;800&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #d4af37; --dark: #050505; --card: #111; }
-        body { margin: 0; background: var(--dark); color: white; font-family: 'Segoe UI', sans-serif; }
+        :root { --gold: #d4af37; --bg: #050505; --card: #111; --text: #ffffff; }
+        * { box-sizing: border-box; transition: all 0.3s ease; }
+        body { margin: 0; background: var(--bg); color: var(--text); font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; }
+
+        /* ADMIN BAR (Verborgen) */
+        #adminBar { display: none; background: #d4af37; color: black; padding: 10px 5%; font-weight: bold; position: sticky; top: 0; z-index: 2000; justify-content: space-between; align-items: center; display: none; }
         
-        /* ADMIN PANEEL (Verborgen) */
-        #adminPanel { display: none; background: #1a1a1a; padding: 25px; border-bottom: 2px solid var(--gold); position: sticky; top: 0; z-index: 1000; }
-        .admin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
-        .admin-card { background: #000; padding: 15px; border: 1px solid #333; border-radius: 8px; }
-        .admin-input { background: #222; border: 1px solid #444; color: white; padding: 8px; width: 90%; margin-top: 5px; border-radius: 4px; }
+        /* NAVIGATION */
+        nav { display: flex; justify-content: space-between; padding: 25px 5%; align-items: center; background: rgba(0,0,0,0.8); backdrop-filter: blur(15px); position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid #222; }
+        .logo { font-size: 1.8rem; font-weight: 800; letter-spacing: 4px; color: var(--gold); }
+        .nav-links { display: flex; gap: 30px; align-items: center; }
+        .nav-links a { color: #888; text-decoration: none; font-size: 0.9rem; font-weight: 600; }
+        .nav-links a:hover { color: var(--gold); }
+        .btn-pro { background: var(--gold); color: black; padding: 12px 25px; border-radius: 12px; font-weight: 800; border: none; cursor: pointer; }
 
-        /* NAVIGATIE */
-        nav { display: flex; justify-content: space-between; padding: 20px 5%; align-items: center; border-bottom: 1px solid #222; background: rgba(5,5,5,0.9); }
-        .logo { font-size: 1.8rem; font-weight: bold; letter-spacing: 4px; color: var(--gold); text-transform: uppercase; }
-        .admin-trigger { color: #222; cursor: pointer; font-size: 0.7rem; }
+        /* HERO SECTION (Lumina Style) */
+        .hero { padding: 100px 5%; text-align: center; background: radial-gradient(circle at top, #1a150a 0%, #050505 100%); }
+        .hero h1 { font-size: 4.5rem; margin: 0; font-weight: 800; letter-spacing: -2px; line-height: 1; }
+        .hero h1 span { color: var(--gold); }
+        .hero p { color: #888; font-size: 1.2rem; margin: 20px 0 40px; }
 
-        /* HERO & CONTENT */
-        .hero { text-align: center; padding: 100px 20px; background: radial-gradient(circle, #1a1a1a 0%, #050505 100%); }
-        h1 { font-size: 3.5rem; margin: 0; }
-        h1 span { color: var(--gold); }
-        .price-display { font-size: 1.5rem; color: var(--gold); margin: 20px 0; font-weight: bold; }
+        /* SEARCH & FILTERS */
+        .search-container { max-width: 800px; margin: 0 auto; }
+        .search-box { background: #111; padding: 10px; border-radius: 20px; border: 1px solid #333; display: flex; gap: 10px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+        .search-box input { background: transparent; border: none; color: white; padding: 15px; flex: 1; outline: none; font-size: 1rem; }
+        .btn-gen { background: var(--gold); border: none; padding: 0 35px; border-radius: 15px; font-weight: 800; cursor: pointer; }
+
+        .filters { display: flex; justify-content: center; gap: 15px; margin-top: 25px; }
+        .filter-chip { padding: 8px 20px; border-radius: 50px; border: 1px solid #222; background: #111; color: #666; font-size: 0.8rem; cursor: pointer; }
+        .filter-chip.active { border-color: var(--gold); color: var(--gold); background: rgba(212,175,55,0.1); }
+
+        /* MAIN CONTENT GRID */
+        .container { display: flex; padding: 50px 5%; gap: 40px; }
         
-        /* SEARCH BAR */
-        .search-container { display: flex; justify-content: center; margin-top: 30px; }
-        .search-bar { display: flex; background: #111; padding: 5px; border-radius: 50px; border: 1px solid #333; width: 100%; max-width: 500px; }
-        input[type="text"] { background: transparent; border: none; color: white; padding: 12px 20px; flex: 1; outline: none; }
-        .btn-gen { background: var(--gold); border: none; padding: 10px 25px; border-radius: 50px; font-weight: bold; cursor: pointer; color: black; }
+        /* SIDEBAR */
+        .sidebar { width: 280px; flex-shrink: 0; }
+        .side-block { background: #0f0f0f; border-radius: 20px; padding: 25px; border: 1px solid #222; margin-bottom: 30px; }
+        .side-block h3 { font-size: 1rem; margin-bottom: 20px; color: var(--gold); }
+        .category-item { display: flex; justify-content: space-between; color: #888; margin-bottom: 15px; font-size: 0.9rem; cursor: pointer; }
+        .category-item:hover { color: white; }
 
-        /* GALLERY */
-        .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; padding: 50px 5%; }
-        .wall-card { background: var(--card); border-radius: 20px; border: 1px solid #222; overflow: hidden; transition: 0.3s; }
-        .wall-card:hover { border-color: var(--gold); transform: translateY(-5px); }
-        .wall-img { width: 100%; height: 350px; background-size: cover; background-position: center; }
-        .wall-info { padding: 15px; background: #111; }
+        /* GALLERY GRID */
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; flex-grow: 1; }
+        .card { background: var(--card); border-radius: 24px; overflow: hidden; border: 1px solid #222; position: relative; }
+        .card:hover { transform: translateY(-10px); border-color: var(--gold); }
+        .card-img { width: 100%; height: 400px; background-size: cover; background-position: center; position: relative; }
+        .card-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 30px; background: linear-gradient(transparent, rgba(0,0,0,0.9)); opacity: 0; }
+        .card:hover .card-overlay { opacity: 1; }
+        .badge { background: var(--gold); color: black; padding: 4px 12px; border-radius: 8px; font-size: 0.7rem; font-weight: 800; }
+
+        /* PRICE SECTION */
+        .pricing { padding: 80px 5%; text-align: center; }
+        .price-card { background: linear-gradient(145deg, #111, #000); border: 1px solid var(--gold); padding: 50px; border-radius: 40px; display: inline-block; max-width: 400px; }
+        .price-card h2 { font-size: 3rem; margin: 10px 0; }
+
+        /* ADMIN TOGGLE */
+        .admin-login { position: fixed; bottom: 20px; right: 20px; opacity: 0.1; cursor: pointer; font-size: 0.6rem; }
     </style>
 </head>
 <body>
 
-    <div id="adminPanel">
-        <h3 style="color: var(--gold); margin-top: 0;">ULTRAVIST CONTROL CENTER</h3>
-        <div class="admin-grid">
-            <div class="admin-card">
-                <div>Subscribers: <strong id="subCount">1,402</strong></div>
-                <div>Omzet: <strong id="revCount">€ 5.240</strong></div>
-            </div>
-            <div class="admin-card">
-                <label>Abonnement Prijs (€):</label>
-                <input type="number" id="priceInput" class="admin-input" value="19.99" onchange="updateLivePrice()">
-            </div>
-            <div class="admin-card">
-                <label>Nieuwe Wallpaper URL:</label>
-                <input type="text" id="newWallUrl" class="admin-input" placeholder="https://...">
-                <button onclick="addNewWall()" style="margin-top:10px; width:100%; cursor:pointer;">Live Zetten</button>
-            </div>
+    <div id="adminBar">
+        <span>ADMIN MODE ACTIVE</span>
+        <div>
+            Prijs: €<input type="number" id="pInput" value="19.99" style="width:60px" onchange="updateP()">
+            <button onclick="addW()">+ Wallpaper</button>
+            <button onclick="toggleAdmin()" style="background:black; color:white; border:none; margin-left:10px;">Exit</button>
         </div>
-        <button onclick="toggleAdmin()" style="margin-top: 15px; background: #d43737; border:none; color:white; padding: 5px 15px; border-radius:4px; cursor:pointer;">Sluit Dashboard</button>
     </div>
 
     <nav>
         <div class="logo">ULTRAVIST</div>
-        <div>
-            <span class="admin-trigger" onclick="checkAdmin()">LOGIN</span>
-            <button style="background: var(--gold); border:none; padding: 10px 20px; border-radius: 5px; font-weight:bold; margin-left: 15px; cursor:pointer;">UPGRADE PRO</button>
+        <div class="nav-links">
+            <a href="#">DISCOVER</a>
+            <a href="#">LIVE VIDEO'S</a>
+            <a href="#">PRICING</a>
+            <button class="btn-pro">JOIN PREMIUM</button>
         </div>
     </nav>
 
     <section class="hero">
-        <h1>UNLIMITED <span>8K</span> VISION</h1>
-        <div class="price-display">Toegang voor <span id="mainPrice">€ 19.99</span> / maand</div>
+        <h1>UNLIMITED <span>8K</span> ART</h1>
+        <p>De officiële opvolger van Lumina. Snellere rendering, hogere resolutie, pure perfectie.</p>
         
         <div class="search-container">
-            <div class="search-bar">
-                <input type="text" id="userPrompt" placeholder="Beschrijf je 8K meesterwerk...">
+            <div class="search-box">
+                <input type="text" id="prompt" placeholder="Wat wil je creëren? (bijv. 'Gouden futuristische stad 8K')">
                 <button class="btn-gen" onclick="generate()">GENEREER</button>
+            </div>
+            <div class="filters">
+                <div class="filter-chip active">All Masters</div>
+                <div class="filter-chip">Cinematic</div>
+                <div class="filter-chip">Architecture</div>
+                <div class="filter-chip">Nature 8K</div>
             </div>
         </div>
     </section>
 
-    <div class="gallery" id="mainGallery">
-        <div class="wall-card">
-            <div class="wall-img" style="background-image: url('https://images.unsplash.com/photo-1614850523296-d8c1af93d400?w=800');"></div>
-            <div class="wall-info"><strong>NEON GENESIS</strong><br><small style="color:var(--gold)">PREMIUM 8K</small></div>
-        </div>
-        <div class="wall-card">
-            <div class="wall-img" style="background-image: url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=800');"></div>
-            <div class="wall-info"><strong>GOLDEN FLUID</strong><br><small style="color:var(--gold)">EXCLUSIVE</small></div>
-        </div>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="side-block">
+                <h3>CATEGORIES</h3>
+                <div class="category-item"><span>Cyberpunk</span><span>24</span></div>
+                <div class="category-item"><span>Abstract Gold</span><span>18</span></div>
+                <div class="category-item"><span>Live Landscapes</span><span>12</span></div>
+            </div>
+            <div class="side-block">
+                <h3>STATS</h3>
+                <div style="font-size: 0.8rem; color: #555;">
+                    Subscribers: <span id="subs" style="color:var(--gold)">2.405</span><br>
+                    Online Artists: <span style="color:var(--gold)">142</span>
+                </div>
+            </div>
+        </aside>
+
+        <main class="gallery-grid" id="grid">
+            <div class="card">
+                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800');">
+                    <div class="card-overlay">
+                        <span class="badge">PRO 8K</span>
+                        <h3>Neural Fluidity</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1605142859661-ee2155c2f791?w=800');">
+                    <div class="card-overlay">
+                        <span class="badge">LIVE VIDEO</span>
+                        <h3>Digital Horizon</h3>
+                    </div>
+                </div>
+            </div>
+        </main>
     </div>
 
+    <section class="pricing">
+        <div class="price-card">
+            <span class="badge">BEST VALUE</span>
+            <h2 id="finalPrice">€19.99</h2>
+            <p>Onbeperkt 8K downloads & Video achtergronden</p>
+            <button class="btn-pro" style="width: 100%; margin-top: 20px;">GET FULL ACCESS</button>
+        </div>
+    </section>
+
+    <div class="admin-login" onclick="checkAdmin()">Admin Login</div>
+
     <script>
-        // Admin functies
         function checkAdmin() {
-            const pw = prompt("Wachtwoord:");
-            if(pw === "admin123") {
-                document.getElementById('adminPanel').style.display = 'block';
+            let p = prompt("Wachtwoord:");
+            if(p === "admin123") {
+                document.getElementById('adminBar').style.display = 'flex';
             }
         }
 
         function toggleAdmin() {
-            document.getElementById('adminPanel').style.display = 'none';
+            document.getElementById('adminBar').style.display = 'none';
         }
 
-        function updateLivePrice() {
-            const newPrice = document.getElementById('priceInput').value;
-            document.getElementById('mainPrice').innerText = "€ " + newPrice;
+        function updateP() {
+            let val = document.getElementById('pInput').value;
+            document.getElementById('finalPrice').innerText = "€" + val;
         }
 
-        function addNewWall() {
-            const url = document.getElementById('newWallUrl').value;
+        function addW() {
+            let url = prompt("Afbeelding URL:");
             if(url) {
-                const gallery = document.getElementById('mainGallery');
-                gallery.innerHTML += `
-                    <div class="wall-card">
-                        <div class="wall-img" style="background-image: url('${url}');"></div>
-                        <div class="wall-info"><strong>NEW UPLOAD</strong><br><small style="color:var(--gold)">8K LIVE</small></div>
-                    </div>`;
-                alert("Wallpaper toegevoegd!");
+                let grid = document.getElementById('grid');
+                grid.innerHTML = `
+                <div class="card">
+                    <div class="card-img" style="background-image: url('${url}');">
+                        <div class="card-overlay"><span class="badge">NEW</span><h3>Custom Upload</h3></div>
+                    </div>
+                </div>` + grid.innerHTML;
             }
         }
 
         function generate() {
-            const prompt = document.getElementById('userPrompt').value;
-            if(prompt) alert("De Neural Engine genereert nu: " + prompt);
+            let prompt = document.getElementById('prompt').value;
+            if(prompt) alert("Ultravist Neural Engine genereert nu: " + prompt);
         }
     </script>
 </body>
